@@ -7,7 +7,7 @@ Follow dis guy in this video.
 To connect to the school DBs:   
 1)  Use Putty to ssh to servers (Like in 291)   
  
-2)Under login.jsp, you should see:   
+2)Under login.jsp, you should see: (I think we use this one if were working on the school computers)   
 `String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";`   
 Change that line to:   
 `String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";`   
