@@ -15,4 +15,10 @@ Change that line to:
 Change this line:   
 `conn = DriverManager.getConnection(dbstring,"your_user_id","your_pass_word");`   
 to whatever your DB login is. In my case   
-`conn = DriverManager.getConnection(dbstring,"chautran","password");`
+`conn = DriverManager.getConnection(dbstring,"chautran","password");`   
+
+3)Testing   
+To start tomcat there should be a startup.bat or some shit in the /bin/     
+ 
+
+To run a website it should be localhost:8080/folder/login.html where folder is proj1 or radiology.
