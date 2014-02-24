@@ -21,4 +21,4 @@ to whatever your DB login is. In my case
 To start tomcat there should be a startup.bat or some shit in the /bin/     
  
 
-To run a website it should be localhost:8080/folder/login.html where folder is proj1 or radiology.
+To run a website it should be `localhost:8080/folder/login.html` where folder is proj1 or radiology.
