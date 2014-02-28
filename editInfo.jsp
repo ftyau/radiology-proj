@@ -36,11 +36,11 @@
 
 		try{
 			String sql = getQuery(colName);
-	    	PreparedStatement stmt = conn.prepareStatement(sql);
+	    		PreparedStatement stmt = conn.prepareStatement(sql);
 			stmt.setString(1,input);
 			stmt.setInt(2,personID);
-	        stmt.executeUpdate();
-	        conn.commit();
+	        	stmt.executeUpdate();
+	        	conn.commit();
 			conn.close();
 			stmt.close();
 			out.println("<hr>" + "DB UPDATED" + "<hr>");
