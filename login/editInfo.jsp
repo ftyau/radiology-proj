@@ -12,8 +12,27 @@
 	if(request.getParameter("bSubmit") != null){
 		String input = (request.getParameter("userInput")).trim();
 
-		dbConnection dbConn = new dbConnection();
-    	Connection conn = dbConn.connection();
+		Connection conn = null;
+
+
+	    try{
+	        String driverName = "oracle.jdbc.driver.OracleDriver";
+			Class drvClass = Class.forName(driverName); 
+	    	DriverManager.registerDriver((Driver) drvClass.newInstance());
+		}
+	    catch(Exception ex){
+	        out.println("<hr>" + ex.getMessage() + "<hr>");
+	    }
+
+		try{
+	        String dbstring = "jdbc:oracle:thin:@localhost:1525:crs"; 
+	        //String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
+	        conn = DriverManager.getConnection(dbstring,"chautran","davidchau1");
+			conn.setAutoCommit(false);
+	    }
+		catch(Exception ex){
+	        out.println("<hr>" + ex.getMessage() + "<hr>");
+		}
 
 		try{
 			String sql = getQuery(colName);

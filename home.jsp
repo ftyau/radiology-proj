@@ -15,14 +15,14 @@
 
        <!--Personal Info -->
        <TR>
-       	<TD><a href="user.jsp">Personal Info</a></TD>
-        <% String tempID =  (String)(session.getAttribute("id"));%>
+       	<TD><a href="/radiology-proj/login/user.jsp">Personal Info</a></TD>
+        <% String tempID = (String)(session.getAttribute("id"));%>
         <% session.setAttribute("id",tempID);%>
        </TR>
 
        <!-- User Management -->
        <TR>
-       	<TD><a href="">User Management</a></TD>
+       	<TD><a href="">System Admin Panel</a></TD>
        </TR>
         
         <!-- Report Generator -->
