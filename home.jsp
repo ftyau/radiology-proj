@@ -32,7 +32,7 @@
 
         <!-- Upload Picture Module -->
        <TR>
-       	<TD><a href="">Upload Pictures</a></TD>
+       	<TD><a href="/radiology-proj/images/upload.html">Upload Pictures</a></TD>
        </TR>
 
         <!-- Search Module -->
