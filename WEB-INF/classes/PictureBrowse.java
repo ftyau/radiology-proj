@@ -36,7 +36,7 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 	out.println("<head>");
 	out.println("<title> Photo List </title>");
 	out.println("</head>");
-	out.println("<body bgcolor=\"#000000\" text=\"#cccccc\" >");
+	out.println("<body bgcolor=\"#ffb3de\" text=\"#ffff00\" >");
 	out.println("<center>");
 	out.println("<h3>The List of Images </h3>");
 
@@ -44,7 +44,7 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 	 *   to execute the given query
 	 */
 	try {
-	    String query = "select photo_id from pictures";
+	    String query = "select image_id from pacs_images";
 
 	    Connection conn = getConnected();
 	    Statement stmt = conn.createStatement();
@@ -55,16 +55,15 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 		p_id = (rset.getObject(1)).toString();
 
 	       // specify the servlet for the image
-               out.println("<a href=\"/yuan/servlet/GetOnePic?big"+p_id+"\">");
+               out.println("<a href=\"/radiology-proj/images/GetOnePic?"+p_id+"\">");
 	       // specify the servlet for the themernail
-	       out.println("<img src=\"/yuan/servlet/GetOnePic?"+p_id +
+	       out.println("<img src=\"/radiology-proj/images/GetOnePic?"+p_id +
 	                   "\"></a>");
 	    }
 	    stmt.close();
 	    conn.close();
 	} catch ( Exception ex ){ out.println( ex.toString() );}
     
-	out.println("<P><a href=\"/yuan/servlets/logicsql.html\"> Return </a>");
 	out.println("</body>");
 	out.println("</html>");
     }
@@ -74,11 +73,10 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
      */
     private Connection getConnected() throws Exception {
 
-	String username = "user_name";
-	String password = "******";
-        /* one may replace the following for the specified database */
-	String dbstring = "jdbc.logicsql@luscar.cs.ualberta.ca:2000:database";
-	String driverName = "com.shifang.logicsql.jdbc.driver.LogicSqlDriver";
+	String username = "chautran";
+	String password = "davidchau1";
+	String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";
+	String driverName = "oracle.jdbc.driver.OracleDriver";
 
 	/*
 	 *  to connect to the database

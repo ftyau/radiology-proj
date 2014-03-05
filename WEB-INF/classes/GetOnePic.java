@@ -35,11 +35,7 @@ public class GetOnePic extends HttpServlet
 	String picid  = request.getQueryString();
 	String query;
 
-	if ( picid.startsWith("big") )  
-	    query = 
-	     "select image from pictures where photo_id=" + picid.substring(3);
-	else
-	    query = "select sm_image from pictures where photo_id=" + picid;
+	query = "select full_size from pacs_images where image_id=" + picid;
 
 	ServletOutputStream out = response.getOutputStream();
 
@@ -81,11 +77,11 @@ public class GetOnePic extends HttpServlet
      */
     private Connection getConnected() throws Exception {
 
-	String username = "user_name";
-	String password = "*****";
+	String username = "chautran";
+	String password = "davidchau1";
         /* one may replace the following for the specified database */
-	String dbstring = "jdbc.logicsql@luscar.cs.ualberta.ca:2000:database";
-	String driverName = "com.shifang.logicsql.jdbc.driver.LogicSqlDriver";
+	String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";
+	String driverName = "oracle.jdbc.driver.OracleDriver";
 
 	/*
 	 *  to connect to the database

@@ -34,6 +34,11 @@
        <TR>
        	<TD><a href="/radiology-proj/images/upload.html">Upload Pictures</a></TD>
        </TR>
+	   
+	   <!-- View Images -->
+	   <TR>
+		<TD><a href="/radiology-proj/images/images">View Pictures</a></TD>
+	   </TR>
 
         <!-- Search Module -->
        <TR>
