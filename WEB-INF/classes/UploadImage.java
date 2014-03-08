@@ -5,6 +5,9 @@ import java.sql.*;
 import java.util.*;
 import oracle.sql.*;
 import oracle.jdbc.*;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import javax.imageio.ImageIO;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 
@@ -32,9 +35,13 @@ public class UploadImage extends HttpServlet {
 
 	    //Get the image stream
 	    InputStream instream = item.getInputStream();
-	    
-            // Connect to the database and create a statement
-            Connection conn = getConnected(drivername,dbstring, username,password);
+		
+		//Get file extension
+		int index = item.getName().lastIndexOf(".");
+		String extension = item.getName().substring(index+1);
+		
+        // Connect to the database and create a statement
+        Connection conn = getConnected(drivername,dbstring, username,password);
 	    Statement stmt = conn.createStatement();
 
 	    /*
@@ -53,22 +60,37 @@ public class UploadImage extends HttpServlet {
 	    String cmd = "SELECT * FROM pacs_images WHERE image_id = "+image_id+" FOR UPDATE";
 	    ResultSet rset = stmt.executeQuery(cmd);
 	    rset.next();
-	    BLOB myblob = ((OracleResultSet)rset).getBLOB(5);
+		BLOB thumbblob = ((OracleResultSet)rset).getBLOB(3);
+		BLOB normblob = ((OracleResultSet)rset).getBLOB(4);
+	    BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
 
 
 	    //Write the image to the blob object
-	    OutputStream outstream = myblob.getBinaryOutputStream();
-	    int size = myblob.getBufferSize();
-	    byte[] buffer = new byte[size];
-	    int length = -1;
-	    while ((length = instream.read(buffer)) != -1)
-		outstream.write(buffer, 0, length);
-	    instream.close();
-	    outstream.close();
+		OutputStream fulloutstream = fullblob.getBinaryOutputStream();
+		BufferedImage fullBufferedImg = ImageIO.read(instream);
+		ImageIO.write(fullBufferedImg, extension, fulloutstream);
+		
+		OutputStream normoutstream = normblob.getBinaryOutputStream();
+		Image normimg = fullBufferedImg.getScaledInstance(Math.min(250, 
+			Math.min(fullBufferedImg.getHeight(),fullBufferedImg.getWidth())), -1, Image.SCALE_SMOOTH);
+		BufferedImage normBufferedImg = new BufferedImage(normimg.getWidth(null),normimg.getHeight(null),
+		BufferedImage.TYPE_INT_RGB);
+		normBufferedImg.getGraphics().drawImage(normimg,0,0,null);
+		ImageIO.write(normBufferedImg, extension, normoutstream);
+		
+		OutputStream thumboutstream = thumbblob.getBinaryOutputStream();
+		Image thumbimg = fullBufferedImg.getScaledInstance(Math.min(100,
+			Math.min(fullBufferedImg.getHeight(),fullBufferedImg.getWidth())), -1, Image.SCALE_SMOOTH);
+		BufferedImage thumbBufferedImg = new BufferedImage(thumbimg.getWidth(null),thumbimg.getHeight(null),
+		BufferedImage.TYPE_INT_RGB);
+		thumbBufferedImg.getGraphics().drawImage(thumbimg,0,0,null);
+		ImageIO.write(thumbBufferedImg, extension, thumboutstream);
 
-            stmt.executeUpdate("commit");
-	    response_message = " Upload OK!  ";
-            conn.close();
+	    instream.close();
+		
+        stmt.executeUpdate("commit");
+	    response_message = "Upload OK!";
+        conn.close();
 
 	} catch( Exception ex ) {
 	    //System.out.println( ex.getMessage());

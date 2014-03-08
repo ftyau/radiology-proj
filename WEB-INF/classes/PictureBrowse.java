@@ -57,8 +57,7 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 	       // specify the servlet for the image
                out.println("<a href=\"/radiology-proj/images/GetOnePic?"+p_id+"\">");
 	       // specify the servlet for the themernail
-	       out.println("<img src=\"/radiology-proj/images/GetOnePic?"+p_id +
-	                   "\"></a>");
+	       out.println("<img src=\"/radiology-proj/images/GetOnePic?thumb"+p_id +"\"></a>");
 	    }
 	    stmt.close();
 	    conn.close();

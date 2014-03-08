@@ -35,7 +35,10 @@ public class GetOnePic extends HttpServlet
 	String picid  = request.getQueryString();
 	String query;
 
-	query = "select full_size from pacs_images where image_id=" + picid;
+	if (picid.startsWith("thumb"))
+		query = "select thumbnail from pacs_images where image_id=" + picid.substring(5);
+	else
+		query = "select full_size from pacs_images where image_id=" + picid;
 
 	ServletOutputStream out = response.getOutputStream();
 
@@ -49,7 +52,7 @@ public class GetOnePic extends HttpServlet
 	    ResultSet rset = stmt.executeQuery(query);
 
 	    if ( rset.next() ) {
-		response.setContentType("image/gif");
+		response.setContentType("image/jpg");
 		InputStream input = rset.getBinaryStream(1);	    
 		int imageByte;
 		while((imageByte = input.read()) != -1) {
