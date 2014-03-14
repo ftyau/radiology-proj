@@ -3,7 +3,7 @@
 <TITLE>Edit User Info</TITLE>
 </HEAD>
 <BODY>
-<%@ page import="java.sql.*" %>
+<%@ page import="java.sql.*,Database.dbConnection" %>
 <%! String colName;%>
 <% 	
 	String tempID =  (String)(session.getAttribute("id"));
@@ -11,28 +11,9 @@
 
 	if(request.getParameter("bSubmit") != null){
 		String input = (request.getParameter("userInput")).trim();
-
-		Connection conn = null;
-
-
-	    try{
-	        String driverName = "oracle.jdbc.driver.OracleDriver";
-			Class drvClass = Class.forName(driverName); 
-	    	DriverManager.registerDriver((Driver) drvClass.newInstance());
-		}
-	    catch(Exception ex){
-	        out.println("<hr>" + ex.getMessage() + "<hr>");
-	    }
-
-		try{
-	        String dbstring = "jdbc:oracle:thin:@localhost:1525:crs"; 
-	        //String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-	        conn = DriverManager.getConnection(dbstring,"chautran","davidchau1");
-			conn.setAutoCommit(false);
-	    }
-		catch(Exception ex){
-	        out.println("<hr>" + ex.getMessage() + "<hr>");
-		}
+	
+		dbConnection newDB = new dbConnection();
+		Connection conn = newDB.connection();
 
 		try{
 			String sql = getQuery(colName);
@@ -48,7 +29,7 @@
 	    catch(Exception ex){
 	        out.println("<hr>" + ex.getMessage() + "11<hr>");
 		}
-		response.sendRedirect("home.jsp");
+		response.sendRedirect("/radiology-proj/home.jsp");
 	}
 	else{
 		out.println("<H1><CENTER>Edit User Information</CENTER></H1>");

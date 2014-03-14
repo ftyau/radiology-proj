@@ -12,11 +12,11 @@
        </TR>
        <!--Personal Info -->
        <TR>
-       	<TD><a href="/radiology-proj/manage/changeTable.jsp">Edit or Insert into Table(s)</a></TD>
+        <TD><a href="/radiology-proj/manage/insertQuery.jsp">Insert Query</a></TD>
        </TR>
        <!-- User Management -->
        <TR>
-       	<TD><a href="/radiology-proj/manage/generate.jsp">Generate Reports</a></TD>
+        <TD><a href="/radiology-proj/manage/updateQuery.jsp">Update Query</a></TD>
        </TR>
    </TABLE>
 </TABLE>

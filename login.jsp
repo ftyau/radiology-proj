@@ -3,33 +3,16 @@
 <TITLE>Login Result</TITLE>
 </HEAD>
 <BODY>
-<%@ page import="java.sql.*, User.UserModel" %><%
+<%@ page import="java.sql.*,Database.dbConnection" %><%
     if(request.getParameter("bSubmit") != null){
 
-        //Get input username and password
+        //Get inputted Username and pasword
     	String inputUsername = (request.getParameter("USERID")).trim();
         String inputPassword = (request.getParameter("PASSWD")).trim();
 
-        //Some JDBC bullshit
-        try{
-            String driverName = "oracle.jdbc.driver.OracleDriver";
-    		Class drvClass = Class.forName(driverName); 
-        	DriverManager.registerDriver((Driver) drvClass.newInstance());
-    	}
-        catch(Exception ex){
-            out.println("<hr>" + ex.getMessage() + "<hr>");
-        }
+        dbConnection newDB = new dbConnection();
+        Connection conn = newDB.connection();
         
-        //Establish connection to DB
-        Connection conn = null;
-        try{
-            String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";
-            conn = DriverManager.getConnection(dbstring,"chautran","davidchau1");
-            conn.setAutoCommit(false);
-        }
-        catch(Exception ex){
-            out.println("<hr>" + ex.getMessage() + "<hr>");
-        }
 
         //Execute Queries
         String sql = "select user_name, password, person_id from users";

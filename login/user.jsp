@@ -3,35 +3,17 @@
 <TITLE>User</TITLE>
 </HEAD>
 <BODY>
-<%@ page import="java.sql.*, User.UserModel" %>
+<%@ page import="java.sql.*, User.UserModel,Database.dbConnection" %>
 <%
 	UserModel newUser =  new UserModel();
 
-    String tempID =  (String)(session.getAttribute("id"));
-    int personID = Integer.valueOf(tempID);
+  dbConnection newDB = new dbConnection();
+  Connection conn = newDB.connection();
 
-    //establish the connection to the underlying database
-    try{
-        String driverName = "oracle.jdbc.driver.OracleDriver";
-		Class drvClass = Class.forName(driverName); 
-    	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	}
-    catch(Exception ex){
-        out.println("<hr>" + ex.getMessage() + "<hr>");
-    }
+  String tempID =  (String)(session.getAttribute("id"));
+  int personID = Integer.valueOf(tempID);
 
-    Connection conn = null;
-	try{
-        String dbstring = "jdbc:oracle:thin:@localhost:1525:crs"; 
-        //String dbstring = "jdbc:oracle:thin:@gwynne.cs.ualberta.ca:1521:CRS";
-        conn = DriverManager.getConnection(dbstring,"chautran","davidchau1");
-		conn.setAutoCommit(false);
-    }
-	catch(Exception ex){
-        out.println("<hr>" + ex.getMessage() + "<hr>");
-	}  
-
-    ResultSet results = null;
+  ResultSet results = null;
 	String sql = "select first_name, last_name, " 
 				+ "address, email, phone "
 				+ "from persons where person_id = ?";
