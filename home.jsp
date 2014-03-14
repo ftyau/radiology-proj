@@ -30,17 +30,22 @@
        	<TD><a href="">Report Generator</a></TD>
        </TR>
 
-        <!-- Upload Picture Module -->
-       <TR>
-       	<TD><a href="">Upload Pictures</a></TD>
-       </TR>
-
-        <!-- Search Module -->
-       <TR>
-        <TD><a href="">Search Database</a></TD>
-       </TR>
-
-   </TABLE>
+		<!-- Upload Picture Module -->
+        <TR>
+      		<TD><a href="/radiology-proj/images/upload.html">Upload Pictures</a></TD>
+        </TR>
+	   
+	   <!-- View Images -->
+		<TR>
+			<TD><a href="/radiology-proj/images/images">View Pictures</a></TD>
+		</TR>
+  
+       <!-- Search Module -->
+        <TR>
+        	<TD><a href="/radiology-proj/search.html">Search Database</a></TD>
+        </TR> 
+        
+     </TABLE>
 </TABLE>
 </BODY>
 </HTML>

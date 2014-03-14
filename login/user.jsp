@@ -7,6 +7,7 @@
 <%
 	UserModel newUser =  new UserModel();
 
+
   dbConnection newDB = new dbConnection();
   Connection conn = newDB.connection();
 
