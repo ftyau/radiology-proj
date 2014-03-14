@@ -20,6 +20,7 @@ public class UploadImage extends HttpServlet {
 	String drivername = "oracle.jdbc.driver.OracleDriver";
 	String dbstring ="jdbc:oracle:thin:@localhost:1525:crs";
 	int image_id;
+	int record_id = 0;
 
 	try {
 	    //Parse the HTTP request to get the image stream
@@ -30,6 +31,7 @@ public class UploadImage extends HttpServlet {
 	    Iterator i = FileItems.iterator();
 	    FileItem item = (FileItem) i.next();
 	    while (i.hasNext() && item.isFormField()) {
+			record_id = Integer.parseInt(item.getString());
 		    item = (FileItem) i.next();
 	    }
 
@@ -53,7 +55,7 @@ public class UploadImage extends HttpServlet {
 
 	    //Insert an empty blob into the table first. Note that you have to 
 	    //use the Oracle specific function empty_blob() to create an empty blob
-	    stmt.execute("INSERT INTO pacs_images VALUES(1,"+image_id+",empty_blob(),empty_blob(),empty_blob())");
+	    stmt.execute("INSERT INTO pacs_images VALUES("+record_id+","+image_id+",empty_blob(),empty_blob(),empty_blob())");
  
 	    // to retrieve the lob_locator 
 	    // Note that you must use "FOR UPDATE" in the select statement
@@ -88,7 +90,7 @@ public class UploadImage extends HttpServlet {
 
 	    instream.close();
 		
-        stmt.executeUpdate("commit");
+        //stmt.executeUpdate("commit");
 	    response_message = "Upload OK!";
         conn.close();
 

@@ -42,7 +42,7 @@
 
         <!-- Search Module -->
        <TR>
-        <TD><a href="">Search Database</a></TD>
+        <TD><a href="/radiology-proj/search.html">Search Database</a></TD>
        </TR>
 
    </TABLE>
