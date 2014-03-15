@@ -6,7 +6,7 @@
 <%@ page import="java.sql.*,Database.dbConnection" %><%
     if(request.getParameter("bSubmit") != null){
 
-        //Get inputted Username and pasword
+        //Get input username and password
     	String inputUsername = (request.getParameter("USERID")).trim();
         String inputPassword = (request.getParameter("PASSWD")).trim();
 

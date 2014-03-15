@@ -6,9 +6,18 @@
 		<form name="search" method="get" action="search">
 		<table>
 			<tr>
+				<td>Search by keywords: </td>
 				<td>
-					<input type="text" name=query>
+					<input type="text" name=keyword>
 				</td>
+			</tr>
+			<tr>
+				<td>Search by time period (format of " 'YYYY/MM/DD' AND 'YYYY/MM/DD' "): </td>
+				<td>
+					<input type="text" name=time>
+				</td>
+			</tr>
+			<tr>
 				<td>
 					<input type="submit" value="Search" name=search>
 				</td>
