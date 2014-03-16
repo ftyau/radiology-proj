@@ -29,6 +29,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 			if (request.getParameter("search") != null) {
 				String request_keyword = request.getParameter("keyword");
 				String request_time = request.getParameter("time");
+				String request_sort = request.getParameter("sort");
 				if ((!(request_keyword.equals(""))) && (!(request_time.equals("")))) {
 					out.println("Query is " + request_keyword + " with time period of " + request_time);
 				} else if ((request_keyword.equals("")) && (!(request_time.equals("")))) {
@@ -66,11 +67,21 @@ public class Search extends HttpServlet implements SingleThreadModel {
 						query = query + "AND ";
 					if (!(request_time.equals("")))
 						query = query + "r.prescribing_date BETWEEN " + request_time + " OR r.test_date BETWEEN " + request_time + " ";
+					if (request_sort.equals("rank"))
+						query = query + "ORDER BY ";
+					else if (request_sort.equals("pasc"))
+						query = query + "ORDER BY r.prescribing_date ASC, ";
+					else if (request_sort.equals("pdesc"))
+						query = query + "ORDER BY r.prescribing_date DESC, ";
+					else if (request_sort.equals("tasc"))
+						query = query + "ORDER BY r.test_date ASC, ";
+					else if (request_sort.equals("tdesc"))
+						query = query + "ORDER BY r.test_date DESC, ";
 					if (!(request_keyword.equals("")))
-						query = query + "ORDER BY rank desc, r.record_id";
+						query = query + "rank desc, r.record_id";
 					else
-						query = query + "ORDER BY r.record_id";
-					out.println("<br>" + query + "</br>");
+						query = query + "r.record_id";
+					//out.println("<br>" + query + "<br>");
 					PreparedStatement searchStatement = conn.prepareStatement(query);
 					if (!(request_keyword.equals(""))) {
 						int count_replace = 0;
@@ -166,6 +177,62 @@ public class Search extends HttpServlet implements SingleThreadModel {
                 out.println("</table>");
 				conn.close();
 				
+				String new_query1;
+				String new_query2;
+				String new_query3;
+				String new_query4;
+				
+				String uri = request.getScheme() + "://" +
+					request.getServerName() +
+					":" + request.getServerPort() +
+					request.getRequestURI() + "?";
+					
+				if (request.getParameter("sort").equals("rank")) {
+					new_query1 = request.getQueryString().replaceAll("&sort=rank", "&sort=pasc");
+					new_query2 = request.getQueryString().replaceAll("&sort=rank", "&sort=pdesc");
+					new_query3 = request.getQueryString().replaceAll("&sort=rank", "&sort=tasc");
+					new_query4 = request.getQueryString().replaceAll("&sort=rank", "&sort=tdesc");
+					out.println("<a href=\"" + uri + new_query1 + "\">Sort by prescribing date ascending</a>");
+					out.println("<a href=\"" + uri + new_query2 + "\">Sort by prescribing date descending</a>");
+					out.println("<a href=\"" + uri + new_query3 + "\">Sort by test date ascending</a>");
+					out.println("<a href=\"" + uri + new_query4 + "\">Sort by test date descending</a>");
+				} else if (request.getParameter("sort").equals("pasc")) {
+					new_query1 = request.getQueryString().replaceAll("&sort=pasc", "&sort=rank");
+					new_query2 = request.getQueryString().replaceAll("&sort=pasc", "&sort=pdesc");
+					new_query3 = request.getQueryString().replaceAll("&sort=pasc", "&sort=tasc");
+					new_query4 = request.getQueryString().replaceAll("&sort=pasc", "&sort=tdesc");
+					out.println("<a href=\"" + uri + new_query1 + "\">Sort by rank</a>");
+					out.println("<a href=\"" + uri + new_query2 + "\">Sort by prescribing date descending</a>");
+					out.println("<a href=\"" + uri + new_query3 + "\">Sort by test date ascending</a>");
+					out.println("<a href=\"" + uri + new_query4 + "\">Sort by test date descending</a>");
+				} else if (request.getParameter("sort").equals("pdesc")) {
+					new_query1 = request.getQueryString().replaceAll("&sort=pdesc", "&sort=rank");
+					new_query2 = request.getQueryString().replaceAll("&sort=pdesc", "&sort=pasc");
+					new_query3 = request.getQueryString().replaceAll("&sort=pdesc", "&sort=tasc");
+					new_query4 = request.getQueryString().replaceAll("&sort=pdesc", "&sort=tdesc");
+					out.println("<a href=\"" + uri + new_query1 + "\">Sort by rank</a>");
+					out.println("<a href=\"" + uri + new_query2 + "\">Sort by prescribing date ascending</a>");
+					out.println("<a href=\"" + uri + new_query3 + "\">Sort by test date ascending</a>");
+					out.println("<a href=\"" + uri + new_query4 + "\">Sort by test date descending</a>");
+				} else if (request.getParameter("sort").equals("tasc")) {
+					new_query1 = request.getQueryString().replaceAll("&sort=tasc", "&sort=rank");
+					new_query2 = request.getQueryString().replaceAll("&sort=tasc", "&sort=pasc");
+					new_query3 = request.getQueryString().replaceAll("&sort=tasc", "&sort=pdesc");
+					new_query4 = request.getQueryString().replaceAll("&sort=tasc", "&sort=tdesc");
+					out.println("<a href=\"" + uri + new_query1 + "\">Sort by rank</a>");
+					out.println("<a href=\"" + uri + new_query2 + "\">Sort by prescribing date ascending</a>");
+					out.println("<a href=\"" + uri + new_query3 + "\">Sort by prescribing date descending</a>");
+					out.println("<a href=\"" + uri + new_query4 + "\">Sort by test date descending</a>");
+				} else if (request.getParameter("sort").equals("tdesc")) {
+					new_query1 = request.getQueryString().replaceAll("&sort=tdesc", "&sort=rank");
+					new_query2 = request.getQueryString().replaceAll("&sort=tdesc", "&sort=pasc");
+					new_query3 = request.getQueryString().replaceAll("&sort=tdesc", "&sort=pdesc");
+					new_query4 = request.getQueryString().replaceAll("&sort=tdesc", "&sort=tasc");
+					out.println("<a href=\"" + uri + new_query1 + "\">Sort by rank</a>");
+					out.println("<a href=\"" + uri + new_query2 + "\">Sort by prescribing date ascending</a>");
+					out.println("<a href=\"" + uri + new_query3 + "\">Sort by prescribing date descending</a>");
+					out.println("<a href=\"" + uri + new_query4 + "\">Sort by test date ascending</a>");
+				}
 			}
 		} catch(Exception ex) {
 			out.println(ex.getMessage());
