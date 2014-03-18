@@ -13,7 +13,6 @@
         dbConnection newDB = new dbConnection();
         Connection conn = newDB.connection();
         
-
         //Execute Queries
         String sql = "select user_name, password, person_id from users";
         ResultSet results = null;
@@ -72,7 +71,9 @@
         out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
         out.println("</FORM>");
         out.println("<HR>");
-    }    
+    }
+
+		
 %>
 </BODY>
 </HTML>

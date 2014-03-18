@@ -25,11 +25,6 @@
        	<TD><a href="/radiology-proj/manage/managementHome.jsp">System Admin Panel</a></TD>
        </TR>
         
-        <!-- Report Generator -->
-       <TR>
-       	<TD><a href="">Report Generator</a></TD>
-       </TR>
-
 		<!-- Upload Picture Module -->
         <TR>
       		<TD><a href="/radiology-proj/images/upload.html">Upload Pictures</a></TD>
@@ -44,7 +39,7 @@
         <TR>
         	<TD><a href="/radiology-proj/search.html">Search Database</a></TD>
         </TR> 
-        
+
      </TABLE>
 </TABLE>
 </BODY>
