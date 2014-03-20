@@ -5,16 +5,12 @@
 </HEAD>
 <BODY>
 <%@ page import="java.sql.*,Database.dbConnection,java.util.*" %>
-<%! String tableType;
-
-%>
+<%! String tableType;%>
 <%
-    tableType = request.getParameter("tableType");
-
-
+tableType = request.getParameter("tableType");
 if(request.getParameter("bSubmit") != null){
     if(tableType.equals("persons")){
-            dbConnection newDB = new dbConnection();
+        dbConnection newDB = new dbConnection();
         Connection conn = newDB.connection(); 
         Statement stmt = conn.createStatement();
 
