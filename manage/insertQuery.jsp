@@ -54,11 +54,11 @@ if(request.getParameter("bSubmit") != null){
 		out.println("<TABLE>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Username: </B></TD>");
+        out.println("<TD><B>New Username: </B></TD>");
         out.println("<TD><INPUT TYPE=text NAME=username><BR></TD></TR>");
 
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Password: </B></TD>");
+        out.println("<TD><B>New Password: </B></TD>");
         out.println("<TD><INPUT TYPE=text NAME=pass><BR></TD></TR>");
 
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
@@ -75,7 +75,7 @@ if(request.getParameter("bSubmit") != null){
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
 		out.println("Person ID: ");
         out.println("<select name=personID id=dropdown>");
-		ArrayList<String> model = getIDs();
+		ArrayList<String> model = getIDs("users");
 		for(String m: model){
     		out.println("<option value=" + m + ">" + m +"</option>");
     	}
@@ -90,26 +90,31 @@ if(request.getParameter("bSubmit") != null){
     else if(tableType.equals("family_doctor")){
 
     	out.println("<H1><CENTER>Insert New Doctor</CENTER></H1>");
-		out.println("<P>Please Fill Out All The Fields</P>");
+		out.println("<P>Assign doctor to patient</P>");
 
 		out.println("<FORM METHOD=post ACTION=insertQuery.jsp>");
 		out.println("<TABLE>");
 
-        out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Doctor ID: </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=docID><BR></TD></TR>");
-
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Patient ID </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=patientID><BR></TD></TR>");
-		out.println("</TABLE>");
+		out.println("Doctor ID: ");
+        out.println("<select name=personID id=dropdown>");
+		ArrayList<String> docArray = getIDs("doctors");
+		for(String m: docArray){
+    		out.println("<option value=" + m + ">" + m +"</option>");
+    	}
+    	out.println("</select></TR><BR>");
+
+    	out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+		out.println("Patient ID: ");
+        out.println("<select name=personID id=dropdown>");
+		ArrayList<String> patArray = getIDs("patient");
+		for(String m: patArray){
+    		out.println("<option value=" + m + ">" + m +"</option>");
+    	}
+    	out.println("</select></TR><BR>");
 
 		out.println("<INPUT TYPE=submit NAME=submitQueryDoctor VALUE=Submit>");
         out.println("</FORM>");
-        /*SELECT person_id FROM persons
-		minus
-		select person_id from users;
-        */
     }
 }
 else{
@@ -223,22 +228,35 @@ public int generateIDs(){
     }
 	return counter;
 }
-public ArrayList<String> getIDs(){
+public ArrayList<String> getIDs(String str){
 	ArrayList<String> array = new ArrayList<String>();
 	dbConnection newDB = new dbConnection();
 	Connection conn = newDB.connection();
+	
+	String sql = "";
 
-	String sql = "SELECT person_id FROM persons minus select person_id from users";
+	if(str.equals("users")){
+		//sql = "SELECT person_id FROM persons minus select person_id from users";
+		sql = "SELECT person_id FROM persons";
+	}
+
+	else if(str.equals("doctors")){
+		//sql = "SELECT doctor_id FROM family_doctor";
+		sql = "SELECT u.person_id FROM persons p, users u WHERE p.person_id = u.person_id AND u.class = 'd'";
+	}
+
+	else if(str.equals("patient")){
+		//sql = "SELECT patient_id FROM family_doctor";
+		sql = "SELECT u.person_id FROM persons p, users u WHERE p.person_id = u.person_id AND u.class = 'p'";
+	}
 
 	try{
 		Statement stmt = conn.createStatement();
 		ResultSet results = stmt.executeQuery(sql);
 
 	    while(results != null && results.next()){
-		    String personID = (results.getString("person_id"));
-		    array.add(personID);
-			//out.println(personID);
-			System.out.println(personID);
+	    	String id = id = (results.getString("person_id"));
+		    array.add(id);
     	}
         results.close();
     	conn.close();
