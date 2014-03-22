@@ -5,7 +5,7 @@
 <BODY>
 <%@ page import="java.sql.*,Database.dbConnection" %><%
     if(request.getParameter("bSubmit") != null){
-
+		
         //Get input username and password
     	String inputUsername = (request.getParameter("USERID")).trim();
         String inputPassword = (request.getParameter("PASSWD")).trim();
@@ -14,7 +14,7 @@
         Connection conn = newDB.connection();
         
         //Execute Queries
-        String sql = "select user_name, password, person_id from users";
+        String sql = "select user_name, password, person_id, class from users where user_name = '" + inputUsername + "'";
         ResultSet results = null;
 
         try{
@@ -27,37 +27,32 @@
 
         String dbLogin = "";
         String dbPassword = "";
-        int personID = 1;
-
-        //Get results and assign them to variables
-    	while(results != null && results.next()){
-            personID = (results.getInt("person_id"));
-        	dbLogin = (results.getString("user_name")).trim();
-            dbPassword = (results.getString("password")).trim();
-
-            out.println("<p>PersonID: "+ String.valueOf(personID)+"</p>");
-            out.println("<p>Login: "+ dbLogin+"</p>");
-            out.println("<p>Password: " + dbPassword+"</p>");
-        }
-        results.close();
-        conn.close();
-
-        if(inputPassword.equals(dbPassword)){
-            String id = String.valueOf(personID);
-            session.setAttribute("id",id);
-            response.sendRedirect("home.jsp");
-        }
+        int personID = 0;
+		
+		if (results != null)
+			results.next(); 
+			
+		dbPassword = results.getString("password").trim();
+		if (inputPassword.equals(dbPassword)) {
+			String id = Integer.toString(results.getInt("person_id"));
+			session.setAttribute("id",id);
+			session.setAttribute("class", results.getString("class").trim());
+			response.sendRedirect("home.jsp");
+			conn.close();
+		}
+		
+		out.println("Username or password not valid!");
     }
     else{
         out.println("<H1><CENTER>Radiology Database Login</CENTER></H1>");
-        out.println("<P>To login successfully, you need to submit a valid userid and password</P>");
+        out.println("<P>To login successfully, you need to enter a valid username and password.</P>");
 
         out.println("<FORM METHOD=post ACTION=login.jsp>");
 
         out.println("<TABLE>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> UserName: </B></TD>");
+        out.println("<TD><B> Username: </B></TD>");
         out.println("<TD><INPUT TYPE=text NAME=USERID VALUE=harrysmith><BR></TD>");
         out.println("</TR>");
 
