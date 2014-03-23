@@ -46,7 +46,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>upload</servlet-name>
-		<url-pattern>/images/upload</url-pattern>
+		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -83,6 +83,15 @@
 	<servlet-mapping>
 		<servlet-name>view</servlet-name>
 		<url-pattern>/images/view</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>olap</servlet-name>
+		<servlet-class>Olap</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>olap</servlet-name>
+		<url-pattern>/olap</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

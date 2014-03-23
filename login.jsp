@@ -53,12 +53,12 @@
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
         out.println("<TD><B> Username: </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=USERID VALUE=harrysmith><BR></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=USERID><BR></TD>");
         out.println("</TR>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
         out.println("<TD><B> Password: </B></TD>");
-        out.println("<TD><INPUT TYPE=password NAME=PASSWD VALUE=111><BR></TD>");
+        out.println("<TD><INPUT TYPE=password NAME=PASSWD><BR></TD>");
         out.println("</TR>");
 
         out.println("</TABLE>");

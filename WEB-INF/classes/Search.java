@@ -29,8 +29,8 @@ public class Search extends HttpServlet implements SingleThreadModel {
 		String user_id = (String) session.getAttribute("id");
 		
 		try {
-			conn = getConnected(drivername,dbstring, username,password);
 			if (request.getParameter("search") != null) {
+				conn = getConnected(drivername,dbstring, username,password);
 				String request_keyword = request.getParameter("keyword");
 				String request_time = request.getParameter("time");
 				String request_sort = request.getParameter("sort");
@@ -268,11 +268,22 @@ public class Search extends HttpServlet implements SingleThreadModel {
 					out.println("Not searching anything!");
 				}
 				conn.close();
+			} else {
+				out.println("<html><head><title>Search</title></head>");
+				out.println("<body>");
+				out.println("<form name=\"search\" method=\"get\" action=\"search\">");
+				out.println("<table>");
+				out.println("<tr><td>Search by keywords: </td><td><input type=\"text\" name=keyword></td></tr>");
+				out.println("<tr><td>Search by time period (format of \" 'YYYY/MM/DD' AND 'YYYY/MM/DD' \"): </td><td><input type=\"text\" name=time></td>");
+				out.println("<tr><td><input type=hidden name=sort value=\"rank\"></td></tr></tr><tr>");
+				out.println("<td><input type=\"submit\" value=\"Search\" name=search></td>");
+				out.println("</tr></table></form></body></html>");
 			}
+				
 		} catch(Exception ex) {
 			out.println(ex.getMessage());
 		}
-		
+		out.println("<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
 		out.println("</body>");
 		out.println("</html>");
 	}

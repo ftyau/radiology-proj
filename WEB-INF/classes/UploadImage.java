@@ -13,8 +13,25 @@ import org.apache.commons.fileupload.FileItem;
 
 public class UploadImage extends HttpServlet {
     public String response_message;
+	
+	public void doGet(HttpServletRequest request,HttpServletResponse response)
+		throws ServletException, IOException {
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		if (request.getParameter("submit") == null) {
+			out.println("<html><head><title>Upload image</title></head>");
+			out.println("<body>");
+			out.println("<form name=\"upload-image\" method=\"POST\" enctype=\"multipart/form-data\" action=\"upload\">");
+			out.println("<table><tr><th>Radiology record to upload to: </th><td><input type=\"text\" name=recordId></td></tr>");
+			out.println("<tr><th>File path: </th><td><input name=file-path type=\"file\" size=\"30\"></input></td></tr>");
+			out.println("<tr><td ALIGN=CENTER COLSPAN=\"2\"><input type=\"submit\" name=\".submit\" value=\"Upload\"></td></tr>");
+			out.println("</table></form></body></html>");
+		}
+	}
     public void doPost(HttpServletRequest request,HttpServletResponse response)
 		throws ServletException, IOException {
+	response.setContentType("text/html");
+	PrintWriter out = response.getWriter();
 	String username = "chautran";
 	String password = "davidchau1";
 	String drivername = "oracle.jdbc.driver.OracleDriver";
@@ -23,51 +40,51 @@ public class UploadImage extends HttpServlet {
 	int record_id = 0;
 
 	try {
-	    //Parse the HTTP request to get the image stream
-	    DiskFileUpload fu = new DiskFileUpload();
-	    List FileItems = fu.parseRequest(request);
-	    
-	    // Process the uploaded items, assuming only 1 image file uploaded
-	    Iterator i = FileItems.iterator();
-	    FileItem item = (FileItem) i.next();
-	    while (i.hasNext() && item.isFormField()) {
+		//Parse the HTTP request to get the image stream
+		DiskFileUpload fu = new DiskFileUpload();
+		List FileItems = fu.parseRequest(request);
+		
+		// Process the uploaded items, assuming only 1 image file uploaded
+		Iterator i = FileItems.iterator();
+		FileItem item = (FileItem) i.next();
+		while (i.hasNext() && item.isFormField()) {
 			record_id = Integer.parseInt(item.getString());
-		    item = (FileItem) i.next();
-	    }
+			item = (FileItem) i.next();
+		}
 
-	    //Get the image stream
-	    InputStream instream = item.getInputStream();
+		//Get the image stream
+		InputStream instream = item.getInputStream();
 		
 		//Get file extension
 		int index = item.getName().lastIndexOf(".");
 		String extension = item.getName().substring(index+1);
 		
-        // Connect to the database and create a statement
-        Connection conn = getConnected(drivername,dbstring, username,password);
-	    Statement stmt = conn.createStatement();
+		// Connect to the database and create a statement
+		Connection conn = getConnected(drivername,dbstring, username,password);
+		Statement stmt = conn.createStatement();
 
-	    /*
-	     *  First, to generate a unique pic_id using an SQL sequence
-	     */
-	    ResultSet rset1 = stmt.executeQuery("SELECT pic_id_sequence.nextval from dual");
-	    rset1.next();
-	    image_id = rset1.getInt(1);
+		/*
+		 *  First, to generate a unique pic_id using an SQL sequence
+		 */
+		ResultSet rset1 = stmt.executeQuery("SELECT pic_id_sequence.nextval from dual");
+		rset1.next();
+		image_id = rset1.getInt(1);
 
-	    //Insert an empty blob into the table first. Note that you have to 
-	    //use the Oracle specific function empty_blob() to create an empty blob
-	    stmt.execute("INSERT INTO pacs_images VALUES("+record_id+","+image_id+",empty_blob(),empty_blob(),empty_blob())");
+		//Insert an empty blob into the table first. Note that you have to 
+		//use the Oracle specific function empty_blob() to create an empty blob
+		stmt.execute("INSERT INTO pacs_images VALUES("+record_id+","+image_id+",empty_blob(),empty_blob(),empty_blob())");
  
-	    // to retrieve the lob_locator 
-	    // Note that you must use "FOR UPDATE" in the select statement
-	    String cmd = "SELECT * FROM pacs_images WHERE image_id = "+image_id+" FOR UPDATE";
-	    ResultSet rset = stmt.executeQuery(cmd);
-	    rset.next();
+		// to retrieve the lob_locator 
+		// Note that you must use "FOR UPDATE" in the select statement
+		String cmd = "SELECT * FROM pacs_images WHERE image_id = "+image_id+" FOR UPDATE";
+		ResultSet rset = stmt.executeQuery(cmd);
+		rset.next();
 		BLOB thumbblob = ((OracleResultSet)rset).getBLOB(3);
 		BLOB normblob = ((OracleResultSet)rset).getBLOB(4);
-	    BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
+		BLOB fullblob = ((OracleResultSet)rset).getBLOB(5);
 
 
-	    //Write the image to the blob object
+		//Write the image to the blob object
 		OutputStream fulloutstream = fullblob.getBinaryOutputStream();
 		BufferedImage fullBufferedImg = ImageIO.read(instream);
 		ImageIO.write(fullBufferedImg, extension, fulloutstream);
@@ -88,20 +105,17 @@ public class UploadImage extends HttpServlet {
 		thumbBufferedImg.getGraphics().drawImage(thumbimg,0,0,null);
 		ImageIO.write(thumbBufferedImg, extension, thumboutstream);
 
-	    instream.close();
+		instream.close();
 		
-        //stmt.executeUpdate("commit");
-	    response_message = "Upload OK!";
-        conn.close();
-
+		//stmt.executeUpdate("commit");
+		response_message = "Upload OK!";
+		conn.close();
 	} catch( Exception ex ) {
 	    //System.out.println( ex.getMessage());
 	    response_message = ex.getMessage();
 	}
 
 	//Output response to the client
-	response.setContentType("text/html");
-	PrintWriter out = response.getWriter();
 	out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
 		"Transitional//EN\">\n" +
 		"<HTML>\n" +
@@ -110,6 +124,7 @@ public class UploadImage extends HttpServlet {
 		"<H1>" +
 	        response_message +
 		"</H1>\n" +
+		"<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>"+
 		"</BODY></HTML>");
 	}
 

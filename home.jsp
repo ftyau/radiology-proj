@@ -27,19 +27,26 @@
         
 		<!-- Upload Picture Module -->
         <TR>
-      		<TD><a href="/radiology-proj/images/upload.html">Upload Pictures</a></TD>
+      		<TD><a href="/radiology-proj/upload">Upload Pictures</a></TD>
         </TR>
-	   
-	   <!-- View Images -->
+		
+	   <!-- View Images (unneeded for project)
 		<TR>
 			<TD><a href="/radiology-proj/images/images">View Pictures</a></TD>
 		</TR>
-  
+		-->
+		
        <!-- Search Module -->
         <TR>
-        	<TD><a href="/radiology-proj/search.html">Search Database</a></TD>
+        	<TD><a href="/radiology-proj/search">Search Database</a></TD>
         </TR> 
 
+		<% String user_class = (String) session.getAttribute("class");%>
+		<% if (user_class.equals("a")) {%>
+		<TR>
+			<TD><a href="/radiology-proj/olap">Data Analysis</a></TD>
+		</TR>
+		<% }%>
      </TABLE>
 </TABLE>
 </BODY>
