@@ -12,18 +12,24 @@ if(request.getParameter("bSubmit")!=null){
 	ArrayList<ArrayList<String>> outer = new ArrayList<ArrayList<String>>();
 	
 	String diagnosis = request.getParameter("diagnosis");
+	String testdate1 = request.getParameter("inputDate1");
+	String testdate2 = request.getParameter("inputDate2");
+/*
 	out.println(diagnosis);
-	
+	out.println(testdate1);
+	out.println(testdate2);
+*/
 	ResultSet results = null;
 	try{
 
 		String sql = "SELECT DISTINCT FIRST_NAME,LAST_NAME,ADDRESS,PHONE FROM PERSONS p, RADIOLOGY_RECORD r " 
-					+"WHERE p.PERSON_ID = r.PATIENT_ID  AND r.DIAGNOSIS LIKE" + "'%" + diagnosis + "%'" ;
+					+"WHERE p.PERSON_ID = r.PATIENT_ID  AND r.DIAGNOSIS LIKE" + "'%" +diagnosis+ "%'" +
+					" AND r.test_date BETWEEN" + "'"+ testdate1 +"'" + "AND" + "'" + testdate2 + "'";
 
        	Statement stmt = conn.createStatement();
         results = stmt.executeQuery(sql);
 
-        while(results != null && results.next()){
+        while(results != null && results.next()){	
     		String firstname = results.getString("FIRST_NAME");
     		String lastname  = results.getString("LAST_NAME");
     		String address = results.getString("ADDRESS");
@@ -36,12 +42,12 @@ if(request.getParameter("bSubmit")!=null){
     		inner.add(phone);
 
     		outer.add(inner);
-	
+	/*
     		out.println("firstname: " + firstname);
     		out.println("lastname: " + lastname);
     		out.println("address: " + address);
     		out.println("phone: " + phone);
-    
+    */
     	}
 		stmt.close();
         conn.close();
@@ -83,8 +89,13 @@ else{
     out.println("</TR>");
 
     out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-    out.println("<TD><B>Test Date: </B></TD>");
-    out.println("<TD><INPUT TYPE=text NAME=inputDate><BR></TD>");
+    out.println("<TD><B>Test Date (YYYY-MM-DD): </B></TD>");
+    out.println("<TD><INPUT TYPE=text NAME=inputDate1><BR></TD>");
+    out.println("</TR>");
+
+    out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+    out.println("<TD><B>Test Date (YYYY-MM-DD): </B></TD>");
+    out.println("<TD><INPUT TYPE=text NAME=inputDate2><BR></TD>");
     out.println("</TR>");
 
     out.println("</TABLE>");
