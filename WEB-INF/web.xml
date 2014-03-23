@@ -87,11 +87,20 @@
 	
 	<servlet>
 		<servlet-name>olap</servlet-name>
-		<servlet-class>Olap</servlet-class>
+		<servlet-class>OLAP</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>olap</servlet-name>
 		<url-pattern>/olap</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>refresh</servlet-name>
+		<servlet-class>Refresh</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>refresh</servlet-name>
+		<url-pattern>/refresh</url-pattern>
 	</servlet-mapping>
 	
 </web-app>
