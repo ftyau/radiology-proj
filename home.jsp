@@ -15,7 +15,7 @@
 
        <!--Personal Info -->
        <TR>
-       	<TD><a href="/radiology-proj/login/user.jsp">Personal Info</a></TD>
+       	<TD><a href="/radiology-proj/Personal">Personal Info</a></TD>
         <% String tempID = (String)(session.getAttribute("id"));%>
         <% session.setAttribute("id",tempID);%>
        </TR>
