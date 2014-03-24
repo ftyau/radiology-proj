@@ -32,10 +32,6 @@ public class UploadImage extends HttpServlet {
 		throws ServletException, IOException {
 	response.setContentType("text/html");
 	PrintWriter out = response.getWriter();
-	String username = "chautran";
-	String password = "davidchau1";
-	String drivername = "oracle.jdbc.driver.OracleDriver";
-	String dbstring ="jdbc:oracle:thin:@localhost:1525:crs";
 	int image_id;
 	int record_id = 0;
 
@@ -60,7 +56,8 @@ public class UploadImage extends HttpServlet {
 		String extension = item.getName().substring(index+1);
 		
 		// Connect to the database and create a statement
-		Connection conn = getConnected(drivername,dbstring, username,password);
+		Database.dbConnection newDB = new Database.dbConnection();
+        Connection conn = newDB.connection();
 		Statement stmt = conn.createStatement();
 
 		/*
@@ -126,18 +123,5 @@ public class UploadImage extends HttpServlet {
 		"</H1>\n" +
 		"<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>"+
 		"</BODY></HTML>");
-	}
-
-    /*
-    /*   To connect to the specified database
-     */
-    private static Connection getConnected( String drivername,
-					    String dbstring,
-					    String username, 
-					    String password  ) 
-	throws Exception {
-	Class drvClass = Class.forName(drivername); 
-	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	return( DriverManager.getConnection(dbstring,username,password));
 	}
 }	

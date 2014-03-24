@@ -11,10 +11,6 @@ public class Search extends HttpServlet implements SingleThreadModel {
 		HttpSession session = request.getSession(true);
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter ();
-		String username = "chautran";
-		String password = "davidchau1";
-		String drivername = "oracle.jdbc.driver.OracleDriver";
-		String dbstring ="jdbc:oracle:thin:@localhost:1525:crs";
 		Connection conn = null;
 		boolean in_image_col = false;
 		int id_check = -1;
@@ -30,7 +26,8 @@ public class Search extends HttpServlet implements SingleThreadModel {
 		
 		try {
 			if (request.getParameter("search") != null) {
-				conn = getConnected(drivername,dbstring, username,password);
+				Database.dbConnection newDB = new Database.dbConnection();
+				conn = newDB.connection();
 				String request_keyword = request.getParameter("keyword");
 				String request_time = request.getParameter("time");
 				String request_sort = request.getParameter("sort");

@@ -46,7 +46,8 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 	try {
 	    String query = "select image_id from pacs_images";
 
-	    Connection conn = getConnected();
+	    Database.dbConnection newDB = new Database.dbConnection();
+        Connection conn = newDB.connection();
 	    Statement stmt = conn.createStatement();
 	    ResultSet rset = stmt.executeQuery(query);
 	    String p_id = "";
@@ -65,23 +66,5 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
     
 	out.println("</body>");
 	out.println("</html>");
-    }
-    
-    /*
-     *   Connect to the specified database
-     */
-    private Connection getConnected() throws Exception {
-
-	String username = "chautran";
-	String password = "davidchau1";
-	String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";
-	String driverName = "oracle.jdbc.driver.OracleDriver";
-
-	/*
-	 *  to connect to the database
-	 */
-	Class drvClass = Class.forName(driverName); 
-	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	return( DriverManager.getConnection(dbstring,username,password) );
     }
 }

@@ -49,7 +49,8 @@ public class GetOnePic extends HttpServlet
 	 */
 	Connection conn = null;
 	try {
-	    conn = getConnected();
+	    Database.dbConnection newDB = new Database.dbConnection();
+        conn = newDB.connection();
 	    Statement stmt = conn.createStatement();
 	    ResultSet rset = stmt.executeQuery(query);
 
@@ -75,24 +76,5 @@ public class GetOnePic extends HttpServlet
 		out.println( ex.getMessage() );
 	    }
 	}
-    }
-
-    /*
-     *   Connect to the specified database
-     */
-    private Connection getConnected() throws Exception {
-
-	String username = "chautran";
-	String password = "davidchau1";
-        /* one may replace the following for the specified database */
-	String dbstring = "jdbc:oracle:thin:@localhost:1525:crs";
-	String driverName = "oracle.jdbc.driver.OracleDriver";
-
-	/*
-	 *  to connect to the database
-	 */
-	Class drvClass = Class.forName(driverName); 
-	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	return( DriverManager.getConnection(dbstring,username,password) );
     }
 }
