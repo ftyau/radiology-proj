@@ -56,6 +56,44 @@
 		<servlet-name>dbConnection</servlet-name>
 		<url-pattern>/dbConnection</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdminPanel</servlet-name>
+		<servlet-class>AdminPanel</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminPanel</servlet-name>
+		<url-pattern>/AdminPanel</url-pattern>
+	</servlet-mapping>
+
+	<servlet>	
+		<servlet-name>Insert</servlet-name>
+		<servlet-class>Insert</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Insert</servlet-name>
+		<url-pattern>/Insert</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>	
+		<servlet-name>Update</servlet-name>
+		<servlet-class>Update</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Update</servlet-name>
+		<url-pattern>/Update</url-pattern>
+	</servlet-mapping>
+
+	<servlet>	
+		<servlet-name>Generate</servlet-name>
+		<servlet-class>Generate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Generate</servlet-name>
+		<url-pattern>/Generate</url-pattern>
+	</servlet-mapping>
+	
 	
 	<servlet>
 		<servlet-name>viewImages</servlet-name>
@@ -110,5 +148,4 @@
 		<servlet-name>refresh</servlet-name>
 		<url-pattern>/refresh</url-pattern>
 	</servlet-mapping>
-	
 </web-app>

@@ -22,7 +22,7 @@
 
        <!-- User Management -->
        <TR>
-       	<TD><a href="/radiology-proj/manage/managementHome.jsp">System Admin Panel</a></TD>
+       	<TD><a href="/radiology-proj/AdminPanel">System Admin Panel</a></TD>
        </TR>
         
 		<!-- Upload Picture Module -->

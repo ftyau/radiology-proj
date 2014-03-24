@@ -57,17 +57,11 @@ public class EditInfo extends HttpServlet {
 			out.println("</TABLE>");
 
 			out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
+			out.println("<BR><p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
 			out.println("</FORM>");
 			out.println("<HR>");
 	  	}
 	} 
-
-	private static Connection getConnected( String drivername,String dbstring,
-		String username, String password )throws Exception {
-			Class drvClass = Class.forName(drivername); 
-			DriverManager.registerDriver((Driver) drvClass.newInstance());
-			return( DriverManager.getConnection(dbstring,username,password));
-	}
 
 	public String getQuery(String colName){
 		String sql = "";
