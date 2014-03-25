@@ -28,7 +28,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>EditInfo</servlet-name>
-        <url-pattern>/EditInfo</url-pattern>
+        <url-pattern>/editinfo</url-pattern>
     </servlet-mapping>
      <servlet>
         <servlet-name>Personal</servlet-name>
@@ -36,7 +36,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>Personal</servlet-name>
-        <url-pattern>/Personal</url-pattern>
+        <url-pattern>/personal</url-pattern>
     </servlet-mapping>
 	
 	<servlet>
@@ -48,22 +48,13 @@
 		<url-pattern>/upload</url-pattern>
 	</servlet-mapping>
 
-		<servlet>
-		<servlet-name>dbConnection</servlet-name>
-		<servlet-class>dbConnection</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>dbConnection</servlet-name>
-		<url-pattern>/dbConnection</url-pattern>
-	</servlet-mapping>
-
 	<servlet>
 		<servlet-name>AdminPanel</servlet-name>
 		<servlet-class>AdminPanel</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>AdminPanel</servlet-name>
-		<url-pattern>/AdminPanel</url-pattern>
+		<url-pattern>/adminpanel</url-pattern>
 	</servlet-mapping>
 
 	<servlet>	
@@ -72,7 +63,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Insert</servlet-name>
-		<url-pattern>/Insert</url-pattern>
+		<url-pattern>/insert</url-pattern>
 	</servlet-mapping>
 
 
@@ -82,7 +73,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Update</servlet-name>
-		<url-pattern>/Update</url-pattern>
+		<url-pattern>/update</url-pattern>
 	</servlet-mapping>
 
 	<servlet>	
@@ -91,7 +82,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Generate</servlet-name>
-		<url-pattern>/Generate</url-pattern>
+		<url-pattern>/generate</url-pattern>
 	</servlet-mapping>
 	
 	
@@ -110,7 +101,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>getPic</servlet-name>
-		<url-pattern>/images/GetOnePic</url-pattern>
+		<url-pattern>/images/getpic</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
@@ -148,4 +139,5 @@
 		<servlet-name>refresh</servlet-name>
 		<url-pattern>/refresh</url-pattern>
 	</servlet-mapping>
+	
 </web-app>

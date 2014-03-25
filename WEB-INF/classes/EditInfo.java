@@ -40,11 +40,11 @@ public class EditInfo extends HttpServlet {
 		    }catch(Exception ex){
 		        out.println("<hr>" + ex.getMessage() + "<hr>");
 			}
-			res.sendRedirect("/radiology-proj/home.jsp");
+			res.sendRedirect("/radiology-proj/personal");
 	  	}
 	  	else{
 	  		out.println("<H1><CENTER>Edit User Information</CENTER></H1>");
-			out.println("<FORM METHOD=GET ACTION=EditInfo>");
+			out.println("<FORM METHOD=GET ACTION=editinfo>");
 
 			out.println("<TABLE>");
 			out.println("<TR VALIGN=TOP ALIGN=LEFT>");

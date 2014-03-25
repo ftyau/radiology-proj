@@ -18,9 +18,9 @@ public class View extends HttpServlet implements SingleThreadModel {
 		out.println("<body>");
 		if (picid.startsWith("norm")) {
 			out.println("<a href=\"/radiology-proj/images/view?"+picid.substring(4)+"\">");
-			out.println("<img src=\"/radiology-proj/images/GetOnePic?"+picid+"\"></a>");
+			out.println("<img src=\"/radiology-proj/images/getpic?"+picid+"\"></a>");
 		} else {
-			out.println("<img src=\"/radiology-proj/images/GetOnePic?"+picid+"\"></a>");
+			out.println("<img src=\"/radiology-proj/images/getpic?"+picid+"\"></a>");
 		}
 		out.println("</body>");
 		out.println("</html>");

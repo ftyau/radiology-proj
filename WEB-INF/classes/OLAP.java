@@ -17,6 +17,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					Database.dbConnection newDB = new Database.dbConnection();
 					conn = newDB.connection();
 					
+					//Create query
 					String query = "SELECT ";
 					if (request.getParameter("patientName") != null)
 						query = query + "patient_id, ";
@@ -56,6 +57,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					ResultSet rset = searchStatement.executeQuery();
 					ResultSetMetaData rsetmd = rset.getMetaData();
 					int column_count = rsetmd.getColumnCount();
+					//Output table
 					out.println("<html>");
 					out.println("<head><title>Data analysis</title></head>");
 					out.println("<body>");
@@ -63,8 +65,11 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					//out.println("<br>");
 					out.println("<table border=1>");
 					out.println("<tr>");
-					if (request.getParameter("patientName") != null)
-						out.println("<th>Patient name</th>");
+					if (request.getParameter("patientName") != null) {
+						out.println("<th>Patient ID</th>");
+						out.println("<th>First name</th>");
+						out.println("<th>Last name</th>");
+						}
 					if (request.getParameter("testType") != null)
 						out.println("<th>Test type</th>");
 					if (request.getParameter("time") != null) {
@@ -80,16 +85,36 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					out.println("<th># of images</th>");
 					out.println("</tr>");
 					
-					
-					
 					while (rset.next()){
 						out.println("<tr>");
 						for (int i=1;i<column_count+1;i++) {
 							out.println("<td>");
-							if (rset.getString(i) != null)
+							if (rset.getString(i) != null) {
 								out.println(rset.getString(i));
-							else
-								out.println("Any");
+								if (request.getParameter("patientName") != null && i == 1) {
+									String query2 = "SELECT first_name, last_name FROM persons WHERE person_id = " + rset.getString(i);
+									Statement stmt = conn.createStatement();
+									ResultSet rset2 = stmt.executeQuery(query2);
+									while (rset2.next()) {
+										out.println("</td>");
+										out.println("<td>");
+										out.println(rset2.getString(1));
+										out.println("</td>");
+										out.println("<td>");
+										out.println(rset2.getString(2));
+									}
+								}
+							} else {
+								out.println("ANY");
+								if (request.getParameter("patientName") != null && i == 1) {
+									out.println("</td>");
+									out.println("<td>");
+									out.println("-");
+									out.println("</td>");
+									out.println("<td>");
+									out.println("-");
+								}
+							}
 							out.println("</td>");
 						}
 					}
@@ -98,7 +123,6 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					out.println("<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
 					out.println("</body>");
 					out.println("</html>");
-					
 					
 					conn.close();
 				} else { 

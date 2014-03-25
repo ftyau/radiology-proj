@@ -113,7 +113,7 @@ public class Insert extends HttpServlet {
 	  		}
 
 			out.println("<H1><CENTER>Insert Queries</CENTER></H1>");
-			out.println("<FORM method=GET action=Insert name=tableForm>");
+			out.println("<FORM method=GET action=insert name=tableForm>");
 		    out.println("<select name=tableType id=dropdown>");
 		    out.println("<option value=dropdown>Select Table</option>");
 		    out.println("<option value=persons>Persons</option>");
@@ -128,9 +128,9 @@ public class Insert extends HttpServlet {
 
 	public String personsFormat(HttpServletRequest request){
 		out.println("<H1><CENTER>Insert New Person</CENTER></H1>");
-		out.println("<P>Please Fill Out All The Fields</P>");
+		out.println("<P>Enter the details for the new person</P>");
 
-		out.println("<FORM METHOD=GET ACTION=Insert>");
+		out.println("<FORM METHOD=GET ACTION=insert>");
 		out.println("<TABLE>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
@@ -164,9 +164,10 @@ public class Insert extends HttpServlet {
 
 	public void usersFormat(HttpServletRequest request){
 		out.println("<H1><CENTER>Insert New User</CENTER></H1>");
-		out.println("<P>Insert a new Username and Password and select a Class</P>");
+		out.println("<P>Insert a new username and password and select a class for the user. " + 
+		"The person must exist in the database before they can be registered as a user. </P>");
 
-        out.println("<FORM METHOD=GET ACTION=Insert>");
+        out.println("<FORM METHOD=GET ACTION=insert>");
 		out.println("<TABLE>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
@@ -205,9 +206,9 @@ public class Insert extends HttpServlet {
 
 	public void doctorFormat(HttpServletRequest request){
     	out.println("<H1><CENTER>Insert New Doctor</CENTER></H1>");
-		out.println("<P>Assign doctor to patient</P>");
+		out.println("<P>Assign a doctor to a patient</P>");
 
-		out.println("<FORM METHOD=GET ACTION=Insert>");
+		out.println("<FORM METHOD=GET ACTION=insert>");
 		out.println("<TABLE>");
 
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");

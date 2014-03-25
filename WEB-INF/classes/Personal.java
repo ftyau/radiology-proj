@@ -58,27 +58,27 @@ public class Personal extends HttpServlet {
 
 		out.println("<TR>");
 		out.println("<TD>First Name: "+ first_name +"</TD>");
-		out.println("<TD><a href=/radiology-proj/EditInfo?colNum=1>Edit</a></TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=1>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
 		out.println("<TD>Last Name: "+ last_name +"</TD>");
-		out.println("<TD><a href=/radiology-proj/EditInfo?colNum=2>Edit</a></TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=2>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
-		out.println("<TD>Addres: "+ address +"</TD>");
-		out.println("<TD><a href=/radiology-proj/EditInfo?colNum=3>Edit</a></TD>");
+		out.println("<TD>Address: "+ address +"</TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=3>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
 		out.println("<TD>Phone: "+ phone +"</TD>");
-		out.println("<TD><a href=/radiology-proj/EditInfo?colNum=4>Edit</a></TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=4>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
 		out.println("<TD>Email: "+ email +"</TD>");
-		out.println("<TD><a href=/radiology-proj/EditInfo?colNum=5>Edit</a></TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=5>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("</TABLE>");

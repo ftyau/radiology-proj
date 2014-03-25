@@ -18,14 +18,33 @@ public class UploadImage extends HttpServlet {
 		throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
-		if (request.getParameter("submit") == null) {
-			out.println("<html><head><title>Upload image</title></head>");
-			out.println("<body>");
-			out.println("<form name=\"upload-image\" method=\"POST\" enctype=\"multipart/form-data\" action=\"upload\">");
-			out.println("<table><tr><th>Radiology record to upload to: </th><td><input type=\"text\" name=recordId></td></tr>");
-			out.println("<tr><th>File path: </th><td><input name=file-path type=\"file\" size=\"30\"></input></td></tr>");
-			out.println("<tr><td ALIGN=CENTER COLSPAN=\"2\"><input type=\"submit\" name=\".submit\" value=\"Upload\"></td></tr>");
-			out.println("</table></form></body></html>");
+		
+		//Gets all the existing record IDs
+		try {
+			Database.dbConnection newDB = new Database.dbConnection();
+			Connection conn = newDB.connection();
+			String query = "SELECT record_id FROM radiology_record";
+			Statement stmt = conn.createStatement();
+			ResultSet rset = stmt.executeQuery(query);
+			
+			
+			if (request.getParameter("submit") == null) {
+				out.println("<html><head><title>Upload image</title></head>");
+				out.println("<body>");
+				out.println("<form name=\"upload-image\" method=\"POST\" enctype=\"multipart/form-data\" action=\"upload\">");
+				out.println("<table><tr><th>Radiology record to upload to: </th><td>");
+				out.println("<select name=\"recordId\">");
+				while (rset.next()) {
+					out.println("<option vaule=\""+rset.getString(1)+"\">"+rset.getString(1)+"</option>");
+				}
+				out.println("</select>");
+				
+				out.println("<tr><th>File path: </th><td><input name=file-path type=\"file\" size=\"30\"></input></td></tr>");
+				out.println("<tr><td ALIGN=CENTER COLSPAN=\"2\"><input type=\"submit\" name=\".submit\" value=\"Upload\"></td></tr>");
+				out.println("</table></form></body></html>");
+			}
+		} catch(Exception ex) {
+			out.println(ex.getMessage());
 		}
 	}
     public void doPost(HttpServletRequest request,HttpServletResponse response)

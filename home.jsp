@@ -15,14 +15,14 @@
 
        <!--Personal Info -->
        <TR>
-       	<TD><a href="/radiology-proj/Personal">Personal Info</a></TD>
+       	<TD><a href="/radiology-proj/personal">Personal Info</a></TD>
         <% String tempID = (String)(session.getAttribute("id"));%>
         <% session.setAttribute("id",tempID);%>
        </TR>
 
        <!-- User Management -->
        <TR>
-       	<TD><a href="/radiology-proj/AdminPanel">System Admin Panel</a></TD>
+       	<TD><a href="/radiology-proj/adminpanel">System Admin Panel</a></TD>
        </TR>
         
 		<!-- Upload Picture Module -->

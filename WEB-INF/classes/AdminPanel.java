@@ -26,15 +26,15 @@ public class AdminPanel extends HttpServlet{
 		out.println("<TABLE BORDER=1");
 
 		out.println("<TR>");
-		out.println("<TD><a href=/radiology-proj/Insert>Insert Query</a></TD>");
+		out.println("<TD><a href=/radiology-proj/insert>Insert Query</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
-		out.println("<TD><a href=/radiology-proj/Udate>Update Query</a></TD>");
+		out.println("<TD><a href=/radiology-proj/update>Update Query</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
-		out.println("<TD><a href=/radiology-proj/Generate>Generate Report</a></TD>");
+		out.println("<TD><a href=/radiology-proj/generate>Generate Report</a></TD>");
 		out.println("</TR>");
 
 		out.println("</TABLE>");

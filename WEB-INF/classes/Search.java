@@ -34,9 +34,9 @@ public class Search extends HttpServlet implements SingleThreadModel {
 				
 				//Print out what the user searched
 				if ((!(request_keyword.equals(""))) && (!(request_time.equals("")))) {
-					out.println("Query is " + request_keyword + " with time period of " + request_time);
+					out.println("Query is " + request_keyword + " with time period between " + request_time);
 				} else if ((request_keyword.equals("")) && (!(request_time.equals("")))) {
-					out.println("Query is a time period of " + request_time);
+					out.println("Query is a time period between " + request_time);
 				} else if ((!(request_keyword.equals(""))) && (request_time.equals(""))) {
 					out.println("Query is " + request_keyword);
 				}
@@ -139,7 +139,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 							if (id_check == rset.getInt(3)){
 								in_image_col = true;
 								out.println("<a href=\"/radiology-proj/images/view?norm"+rset.getInt(12)+"\">");
-								out.println("<img src=\"/radiology-proj/images/GetOnePic?thumb"+rset.getInt(12)+"\"></a>");
+								out.println("<img src=\"/radiology-proj/images/getpic?thumb"+rset.getInt(12)+"\"></a>");
 							} else {
 								if (in_image_col == true) {
 									out.println("</td>");
@@ -189,7 +189,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 								if (!(rset.getInt(12) == 0)) {
 									out.println("<td>");
 									out.println("<a href=\"/radiology-proj/images/view?norm"+rset.getInt(12)+"\">");
-									out.println("<img src=\"/radiology-proj/images/GetOnePic?thumb"+rset.getInt(12)+"\"></a>");
+									out.println("<img src=\"/radiology-proj/images/getpic?thumb"+rset.getInt(12)+"\"></a>");
 									id_check = rset.getInt(3);
 								}
 							}
