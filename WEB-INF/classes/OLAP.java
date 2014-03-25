@@ -120,7 +120,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					}
 					out.println("</table>");
 					out.println("<p><a href=\"/radiology-proj/refresh\">Refresh table data</a></p>");
-					out.println("<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+					out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 					out.println("</body>");
 					out.println("</html>");
 					
@@ -151,7 +151,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 			
 			out.println("<input type=\"submit\" name=\"submit\" value=\"Submit\">");
 			out.println("</form>");
-			out.println("<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+			out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 			out.println("</body>");
 			out.println("</html>");
 			}

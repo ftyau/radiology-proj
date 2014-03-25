@@ -22,6 +22,7 @@ public class View extends HttpServlet implements SingleThreadModel {
 		} else {
 			out.println("<img src=\"/radiology-proj/images/getpic?"+picid+"\"></a>");
 		}
+		out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 		out.println("</body>");
 		out.println("</html>");
 	}

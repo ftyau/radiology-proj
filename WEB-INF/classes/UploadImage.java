@@ -132,15 +132,14 @@ public class UploadImage extends HttpServlet {
 	}
 
 	//Output response to the client
-	out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 " +
-		"Transitional//EN\">\n" +
+	out.println(
 		"<HTML>\n" +
 		"<HEAD><TITLE>Upload Message</TITLE></HEAD>\n" +
 		"<BODY>\n" +
 		"<H1>" +
 	        response_message +
 		"</H1>\n" +
-		"<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>"+
+		"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
 		"</BODY></HTML>");
 	}
 }	

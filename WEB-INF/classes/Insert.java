@@ -59,7 +59,7 @@ public class Insert extends HttpServlet {
 					conn.commit();
 					stmt.close();
 					conn.close();
-					//res.sendRedirect("/radiology-proj/home.jsp");
+					//res.sendRedirect("/radiology-proj/home");
 				}catch(SQLException e){
 					e.printStackTrace();
 				}
@@ -122,7 +122,7 @@ public class Insert extends HttpServlet {
 		    out.println("</select>");
 		    out.println("<input type=submit value=Enter NAME=bSubmit>");
 			out.println("</FORM>");
-			out.println("<BR><p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 	  	}
 	} 
 
@@ -158,7 +158,7 @@ public class Insert extends HttpServlet {
 		out.println("<INPUT TYPE=submit NAME=submitQueryPerson VALUE=Submit>");
 
         out.println("</FORM>");
-        out.println("<BR><p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+        out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
         return request.getParameter("submitQueryPerson");
 	}
 

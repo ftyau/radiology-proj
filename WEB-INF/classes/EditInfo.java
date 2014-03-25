@@ -57,7 +57,7 @@ public class EditInfo extends HttpServlet {
 			out.println("</TABLE>");
 
 			out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
-			out.println("<BR><p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 			out.println("</FORM>");
 			out.println("<HR>");
 	  	}

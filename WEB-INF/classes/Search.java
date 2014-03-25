@@ -280,7 +280,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 		} catch(Exception ex) {
 			out.println(ex.getMessage());
 		}
-		out.println("<p><a href=\"/radiology-proj/home.jsp\">Return to home</a></p>");
+		out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 		out.println("</body>");
 		out.println("</html>");
 	}
