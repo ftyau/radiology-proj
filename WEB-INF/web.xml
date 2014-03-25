@@ -73,7 +73,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Update</servlet-name>
-		<url-pattern>/update</url-pattern>
+		<url-pattern>/Update</url-pattern>
 	</servlet-mapping>
 
 	<servlet>	
@@ -82,7 +82,7 @@
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>Generate</servlet-name>
-		<url-pattern>/generate</url-pattern>
+		<url-pattern>/Generate</url-pattern>
 	</servlet-mapping>
 	
 	

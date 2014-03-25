@@ -95,7 +95,7 @@ else{
     else{
         out.println("<H1><CENTER>Update Queries</CENTER></H1>");
         out.println("<P>Pick a table to update</P>");
-        out.println("<FORM method=post action=updateQuery.jsp name=tableForm>");
+        out.println("<FORM method=GET action=updateQuery.jsp name=tableForm>");
         out.println("<select name=tableType id=dropdown>");
         out.println("<option value=dropdown>Select Table</option>");
         out.println("<option value=persons>Persons</option>");
