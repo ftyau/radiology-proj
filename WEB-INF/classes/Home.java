@@ -22,7 +22,9 @@ public class Home extends HttpServlet implements SingleThreadModel {
 		out.println("<H1><CENTER>Welcome</CENTER></H1><TABLE ALIGN=\"RIGHT\"><TABLE  BORDER=\"1\"><TR>");
 		out.println("<TH COLSPAN=\"2\"><H4><BR>Navigation</H4></TR>");
 		out.println("<TR><TD><a href=\"/radiology-proj/personal\">Personal Info</a></TD></TR>");
-		out.println("<TR><TD><a href=\"/radiology-proj/adminpanel\">System Admin Panel</a></TD></TR>");
+		if(user_class.equals("a")){
+			out.println("<TR><TD><a href=\"/radiology-proj/adminpanel\">System Admin Panel</a></TD></TR>");
+		}
 		out.println("<TR><TD><a href=\"/radiology-proj/upload\">Upload Pictures</a></TD></TR>");
 		out.println("<TR><TD><a href=\"/radiology-proj/search\">Search Database</a></TD></TR>"); 
 		
