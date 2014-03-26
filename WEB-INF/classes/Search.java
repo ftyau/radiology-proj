@@ -53,7 +53,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 				
 				//Create query to send to DB
 				if((!(request_keyword.equals(""))) || (!(request_time.equals("")))) {
-					String[] keyword_list = request_keyword.split(" ");
+					String[] keyword_list = request_keyword.split("\\s+");
 					String query = "SELECT p.first_name, p.last_name, r.*, pi.image_id ";
 					if (!(request_keyword.equals(""))) {
 						query = query + ",";
@@ -93,8 +93,19 @@ public class Search extends HttpServlet implements SingleThreadModel {
 					if((!(request_keyword.equals(""))) && (!(request_time.equals(""))))
 						query = query + "AND ";
 					
-					if (!(request_time.equals("")))
-						query = query + "(r.prescribing_date BETWEEN " + request_time + " OR r.test_date BETWEEN " + request_time + ") ";
+					String[] request_time_array = request_time.split("\\s+");
+					if ((request_time_array.length != 3) && (request_time_array.length != 1 || request_time_array[0] != "")){
+						out.println("<br>Incorrect date input!");
+						out.println("</body>");
+						out.println("</html>");
+						return;
+					}
+						
+					if (!(request_time.equals(""))){
+						String request_time_begin = request_time_array[0];
+						String request_time_end = request_time_array[2];
+						query = query + "(r.prescribing_date BETWEEN '" + request_time_begin + "' AND '" + request_time_end + "' OR r.test_date BETWEEN '" + request_time_begin + "' AND '" + request_time_end + "') ";
+					}
 					if (request_sort.equals("rank"))
 						query = query + "ORDER BY ";
 					else if (request_sort.equals("pasc"))
@@ -281,14 +292,14 @@ public class Search extends HttpServlet implements SingleThreadModel {
 				out.println("<form name=\"search\" method=\"get\" action=\"search\">");
 				out.println("<table>");
 				out.println("<tr><td>Search by keywords: </td><td><input type=\"text\" name=keyword></td></tr>");
-				out.println("<tr><td>Search by time period (format of \" 'YYYY/MM/DD' AND 'YYYY/MM/DD' \"): </td><td><input type=\"text\" name=time></td>");
+				out.println("<tr><td>Search by time period (format of \"YYYY/MM/DD to YYYY/MM/DD\"): </td><td><input type=\"text\" name=time></td>");
 				out.println("<tr><td><input type=hidden name=sort value=\"rank\"></td></tr></tr><tr>");
 				out.println("<td><input type=\"submit\" value=\"Search\" name=search></td>");
 				out.println("</tr></table></form></body></html>");
 			}
 				
 		} catch(Exception ex) {
-			out.println(ex.getMessage());
+			out.println("<br>Unexpected error. Date format may be incorrect or the database may be having an error.");
 		}
 		out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 		out.println("</body>");

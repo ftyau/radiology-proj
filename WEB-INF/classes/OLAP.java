@@ -137,7 +137,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					out.println("</body></html>");
 				}
 			} catch(Exception ex) {
-				out.println(ex.getMessage());
+				out.println("<br>Unexpected error: " + ex.getMessage());
 			}
 		} else {
 			out.println("<html>");
