@@ -14,9 +14,10 @@ public class Login extends HttpServlet implements SingleThreadModel {
 			session.invalidate();
 			session = request.getSession(true);
 		}
-		out.println("<HTML><HEAD><TITLE>Login Result</TITLE></HEAD><BODY>");
+		out.println("<HTML><HEAD><TITLE>Login</TITLE></HEAD><BODY>");
 		if(request.getParameter("bSubmit") != null){
-			if(request.getParameter("USERID").length() < 1 || request.getParameter("PASSWD").length() < 1){
+			if(request.getParameter("USERID").length() < 1 || request.getParameter("PASSWD").length() < 1 ||
+				request.getParameter("USERID") == null || request.getParameter("PASSWD") == null){
 				out.println("Username and/or password cannot be empty");
 				response.setHeader("Refresh", "5; URL=/radiology-proj/login");
 				return;
@@ -42,20 +43,21 @@ public class Login extends HttpServlet implements SingleThreadModel {
 				String dbPassword = "";
 				int personID = 0;
 				
-				if (results != null)
-					results.next(); 
-			
-				dbPassword = results.getString("password").trim();
-				if (inputPassword.equals(dbPassword)) {
-					String id = Integer.toString(results.getInt("person_id"));
-					session.setAttribute("id",id);
-					session.setAttribute("class", results.getString("class").trim());
-					response.sendRedirect("home");
-					conn.close();
+				while (results.next()) {
+					dbPassword = results.getString("password").trim();
+					
+					if (inputPassword.equals(dbPassword)) {
+						String id = Integer.toString(results.getInt("person_id"));
+						session.setAttribute("id",id);
+						session.setAttribute("class", results.getString("class").trim());
+						response.sendRedirect("home");
+						conn.close();
+					}
+					
+					out.println("Username or password not valid!");
+					return;
 				}
-				
-				out.println("Username or password not valid!");
-			
+				out.println("Username does not exist!");
 			}
 			catch(Exception ex){
 				out.println("<hr>" + ex.getMessage() + "<hr>");
