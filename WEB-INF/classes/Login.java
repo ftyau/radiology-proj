@@ -16,6 +16,11 @@ public class Login extends HttpServlet implements SingleThreadModel {
 		}
 		out.println("<HTML><HEAD><TITLE>Login Result</TITLE></HEAD><BODY>");
 		if(request.getParameter("bSubmit") != null){
+			if(request.getParameter("USERID").length() < 1 || request.getParameter("PASSWD").length() < 1){
+				out.println("Username and/or password cannot be empty");
+				response.setHeader("Refresh", "5; URL=/radiology-proj/login");
+				return;
+			}
 
 			//Get input username and password
 			String inputUsername = (request.getParameter("USERID")).trim();
@@ -75,6 +80,7 @@ public class Login extends HttpServlet implements SingleThreadModel {
 			out.println("</TR>");
 
 			out.println("</TABLE>");
+
 
 			out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
 			out.println("</FORM>");
