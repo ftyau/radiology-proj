@@ -9,6 +9,11 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 		throws ServletException, IOException{
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter ();
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/radiology-proj/login");
+			return;
+		}
 		if (request.getParameter("submit") != null) {
 			Connection conn = null;
 			
@@ -103,6 +108,7 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 										out.println("<td>");
 										out.println(rset2.getString(2));
 									}
+									rset2.close();
 								}
 							} else {
 								out.println("ANY");

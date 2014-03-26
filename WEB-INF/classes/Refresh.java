@@ -8,6 +8,13 @@ public class Refresh extends HttpServlet implements SingleThreadModel {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		response.setContentType("text/html");
+		
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/radiology-proj/login");
+			return;
+		}
+		
 		PrintWriter out = response.getWriter ();
 		Connection conn = null;
 		

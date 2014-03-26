@@ -11,6 +11,10 @@ public class Insert extends HttpServlet {
 	PrintWriter out;
     public void doGet(HttpServletRequest request,HttpServletResponse res) throws ServletException, IOException {
     	HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			res.sendRedirect("/radiology-proj/login");
+			return;
+		}
     	
     	res.setContentType("text/html");
 		out = res.getWriter ();

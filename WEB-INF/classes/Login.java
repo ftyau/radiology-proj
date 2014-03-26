@@ -10,6 +10,10 @@ public class Login extends HttpServlet implements SingleThreadModel {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter ();
 		HttpSession session = request.getSession(true);
+		if (request.getParameter("action") != null) {
+			session.invalidate();
+			session = request.getSession(true);
+		}
 		out.println("<HTML><HEAD><TITLE>Login Result</TITLE></HEAD><BODY>");
 		if(request.getParameter("bSubmit") != null){
 

@@ -57,7 +57,7 @@
 		<url-pattern>/adminpanel</url-pattern>
 	</servlet-mapping>
 
-	<servlet>	
+	<servlet>
 		<servlet-name>Insert</servlet-name>
 		<servlet-class>Insert</servlet-class>
 	</servlet>

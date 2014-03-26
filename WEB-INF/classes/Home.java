@@ -11,9 +11,12 @@ public class Home extends HttpServlet implements SingleThreadModel {
 		PrintWriter out = response.getWriter ();
 		
 		HttpSession session = request.getSession(true);
-		String tempID = (String)(session.getAttribute("id"));
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/radiology-proj/login");
+			return;
+		}
+			
 		String user_class = (String) session.getAttribute("class");
-        session.setAttribute("id",tempID);
 		
 		out.println("<HTML><HEAD><TITLE>Home</TITLE></HEAD><BODY>");
 		out.println("<H1><CENTER>Welcome</CENTER></H1><TABLE ALIGN=\"RIGHT\"><TABLE  BORDER=\"1\"><TR>");
@@ -26,6 +29,7 @@ public class Home extends HttpServlet implements SingleThreadModel {
 		if (user_class.equals("a")) {
 			out.println("<TR><TD><a href=\"/radiology-proj/olap\">Data Analysis</a></TD></TR>");
 		}
+		out.println("<TR><TD><a href=\"/radiology-proj/login?action=logout\">Log out</a></TD></TR>");
 		
 		out.println("</TABLE></TABLE></BODY></HTML>");
 	}

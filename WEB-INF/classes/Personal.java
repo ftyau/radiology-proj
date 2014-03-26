@@ -10,6 +10,10 @@ public class Personal extends HttpServlet {
 
     public void doGet(HttpServletRequest request,HttpServletResponse res) throws ServletException, IOException {
     	HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			res.sendRedirect("/radiology-proj/login");
+			return;
+		}
 
     	res.setContentType("text/html");
 		PrintWriter out = res.getWriter ();

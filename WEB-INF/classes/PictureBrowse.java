@@ -31,6 +31,11 @@ public class PictureBrowse extends HttpServlet implements SingleThreadModel {
 	//  send out the HTML file
 	res.setContentType("text/html");
 	PrintWriter out = res.getWriter ();
+	HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			res.sendRedirect("/radiology-proj/login");
+			return;
+		}
 
 	out.println("<html>");
 	out.println("<head>");

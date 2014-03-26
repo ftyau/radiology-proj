@@ -7,6 +7,12 @@ public class View extends HttpServlet implements SingleThreadModel {
 	throws ServletException, IOException {
 		String picid  = request.getQueryString();
 		response.setContentType("text/html");
+		
+		HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/radiology-proj/login");
+			return;
+		}
 		PrintWriter out = response.getWriter ();
 		out.println("<html>");
 		out.println("<head><title>");

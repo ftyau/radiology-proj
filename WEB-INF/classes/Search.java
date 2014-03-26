@@ -9,6 +9,10 @@ public class Search extends HttpServlet implements SingleThreadModel {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		HttpSession session = request.getSession(true);
+		if (session.getAttribute("id") == null) {
+			response.sendRedirect("/radiology-proj/login");
+			return;
+		}
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter ();
 		Connection conn = null;
@@ -24,13 +28,19 @@ public class Search extends HttpServlet implements SingleThreadModel {
 		String user_class = (String) session.getAttribute("class");
 		String user_id = (String) session.getAttribute("id");
 		
+		String request_keyword = request.getParameter("keyword");
+		String request_time = request.getParameter("time");
+		String request_sort = request.getParameter("sort");
+		
 		try {
 			if (request.getParameter("search") != null) {
+				if (request_keyword.equals("") && request_time.equals("")){
+					out.println("Not searching anything!");
+					return;
+				}
+			
 				Database.dbConnection newDB = new Database.dbConnection();
 				conn = newDB.connection();
-				String request_keyword = request.getParameter("keyword");
-				String request_time = request.getParameter("time");
-				String request_sort = request.getParameter("sort");
 				
 				//Print out what the user searched
 				if ((!(request_keyword.equals(""))) && (!(request_time.equals("")))) {
@@ -71,7 +81,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 						}
 						query = query + ") ";
 					}
-
+					
 					//Security module
 					if (user_class.equals("p"))
 						query = query + "AND r.patient_id = '" + user_id + "' ";
@@ -82,7 +92,7 @@ public class Search extends HttpServlet implements SingleThreadModel {
 						
 					if((!(request_keyword.equals(""))) && (!(request_time.equals(""))))
 						query = query + "AND ";
-						
+					
 					if (!(request_time.equals("")))
 						query = query + "(r.prescribing_date BETWEEN " + request_time + " OR r.test_date BETWEEN " + request_time + ") ";
 					if (request_sort.equals("rank"))
