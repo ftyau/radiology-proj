@@ -54,15 +54,15 @@ public class Insert extends HttpServlet {
 					String idee = String.valueOf(id);
 
 					String sql = "INSERT INTO persons (person_id,first_name,last_name,address,email,phone) "+
-								"VALUES("+idee+", '"+firstname+"', '"+lastname+"', '"+address+"', '"+email+"', '"+phone+"')";
+								"VALUES('"+idee+"', '"+firstname+"', '"+lastname+"', '"+address+"', '"+email+"', '"+phone+"')";
 					stmt.executeUpdate(sql);
 					conn.commit();
 					stmt.close();
 					conn.close();
-					//res.sendRedirect("/radiology-proj/home");
 				}catch(SQLException e){
 					e.printStackTrace();
 				}
+				res.sendRedirect("/radiology-proj/home");
 	  		}
 
 	  		if(request.getParameter("submitQueryUser")!=null){
@@ -88,9 +88,10 @@ public class Insert extends HttpServlet {
 					conn.commit();
 					stmt.close();
 					conn.close();
-					}catch(SQLException e){
-						e.printStackTrace();
-					}
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+				res.sendRedirect("/radiology-proj/home");
 	  		}
 	  		if(request.getParameter("submitQueryDoctor")!=null){
 	  			try{
@@ -110,6 +111,7 @@ public class Insert extends HttpServlet {
 				}catch(SQLException e){
 					e.printStackTrace();
 				}
+				res.sendRedirect("/radiology-proj/home");
 	  		}
 
 			out.println("<H1><CENTER>Insert Queries</CENTER></H1>");

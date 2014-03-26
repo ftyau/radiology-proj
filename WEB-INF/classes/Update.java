@@ -20,6 +20,7 @@ public class Update extends HttpServlet {
 
 
 	  	if(request.getParameter("bSubmit")!=null){
+	  		out.println("Werking");
 	  		tableType = request.getParameter("tableType");
 	        try{
 				String sql = "";
@@ -41,7 +42,7 @@ public class Update extends HttpServlet {
 				ResultSetMetaData meta = results.getMetaData();
 
 		        out.println("<TABLE>");
-		        out.println("<FORM METHOD=GET ACTION=Update>");
+		        out.println("<FORM METHOD=GET ACTION=update>");
 		        out.println("<TR>Update Table " + tableType + "</TR><BR>");
 
 		        out.println("<TR VALIGN=TOP ALIGN=LEFT>");
@@ -102,10 +103,11 @@ public class Update extends HttpServlet {
 		            e.printStackTrace();
 		            out.println(e);
 		        }
+		        res.sendRedirect("/radiology-proj/home");
 	  		}
 	        out.println("<H1><CENTER>Update Queries</CENTER></H1>");
 	        out.println("<P>Pick a table to update</P>");
-	        out.println("<FORM method=GET action=Update name=tableForm>");
+	        out.println("<FORM method=GET action=update name=tableForm>");
 	        out.println("<select name=tableType id=dropdown>");
 	        out.println("<option value=dropdown>Select Table</option>");
 	        out.println("<option value=persons>Persons</option>");

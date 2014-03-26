@@ -33,10 +33,7 @@ public class Generate extends HttpServlet {
 				String sql = "SELECT DISTINCT FIRST_NAME,LAST_NAME,ADDRESS,PHONE FROM PERSONS p, RADIOLOGY_RECORD r " 
 							+"WHERE p.PERSON_ID = r.PATIENT_ID  AND r.DIAGNOSIS LIKE" + "'%" +diagnosis+ "%'" +
 							" AND r.test_date BETWEEN" + "'"+ testdate1 +"'" + "AND" + "'" + testdate2 + "'";
-				
-				// String sql = "SELECT DISTINCT FIRST_NAME,LAST_NAME,ADDRESS,PHONE FROM PERSONS p, RADIOLOGY_RECORD r " 
-				// 			+"WHERE p.PERSON_ID = r.PATIENT_ID  AND r.DIAGNOSIS LIKE" + "'%" +diagnosis+ "%'" +
-				// 			" AND r.test_date = " + "TO_DATE('26-JAN-13','DD-MON-RR')";
+
 		       	Statement stmt = conn.createStatement();
 		        ResultSet results = stmt.executeQuery(sql);
 

@@ -28,7 +28,7 @@ public class Personal extends HttpServlet {
 		String phone="";
 		String email="";
 
-		    	Database.dbConnection newDB = new Database.dbConnection();
+		Database.dbConnection newDB = new Database.dbConnection();
         Connection conn = newDB.connection();
 
 
