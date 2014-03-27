@@ -18,6 +18,8 @@ public class Insert extends HttpServlet {
     	
     	res.setContentType("text/html");
 		out = res.getWriter ();
+		
+		out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
 
 		Database.dbConnection newDB = new Database.dbConnection();
         Connection conn = newDB.connection();
@@ -129,6 +131,9 @@ public class Insert extends HttpServlet {
 		    out.println("<input type=submit value=Enter NAME=bSubmit>");
 			out.println("</FORM>");
 			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+			out.println("<HR>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+			out.println("</BODY></HTML>");
 	  	}
 	} 
 
@@ -165,6 +170,9 @@ public class Insert extends HttpServlet {
 
         out.println("</FORM>");
         out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<HR>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+		out.println("</BODY></HTML>");
         return request.getParameter("submitQueryPerson");
 	}
 
@@ -208,6 +216,10 @@ public class Insert extends HttpServlet {
 		out.println("<INPUT TYPE=submit NAME=submitQueryUser VALUE=Submit>");
 
         out.println("</FORM>");
+		out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<HR>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+		out.println("</BODY></HTML>");
 	}
 
 	public void doctorFormat(HttpServletRequest request){
@@ -237,6 +249,10 @@ public class Insert extends HttpServlet {
 
 		out.println("<INPUT TYPE=submit NAME=submitQueryDoctor VALUE=Submit>");
         out.println("</FORM>");
+		out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<HR>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+		out.println("</BODY></HTML>");
 
 	}
 

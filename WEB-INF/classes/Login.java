@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-public class Login extends HttpServlet implements SingleThreadModel {
+public class Login extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		response.setContentType("text/html");
@@ -88,6 +88,7 @@ public class Login extends HttpServlet implements SingleThreadModel {
 			out.println("</FORM>");
 			out.println("<HR>");
 		}
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 		out.println("</BODY></HTML>");
 	}
 }

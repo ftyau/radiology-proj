@@ -18,27 +18,29 @@ public class Update extends HttpServlet {
     	
     	res.setContentType("text/html");
 		out = res.getWriter ();
+		
+		out.println("<HTML><HEAD><TITLE>Update query</TITLE></HEAD><BODY>");
 
 		Database.dbConnection newDB = new Database.dbConnection();
         Connection conn = newDB.connection();
 
 
 	  	if(request.getParameter("bSubmit")!=null){
-	  		out.println("Werking");
+	  		//out.println("Werking");
 	  		tableType = request.getParameter("tableType");
 	        try{
 				String sql = "";
 				if(tableType.equals("persons")){
 					sql = "SELECT * FROM PERSONS";
-					out.println("<H1><CENTER>Update Table Persons</CENTER></H1>");
+					out.println("<H1><CENTER>Update Persons</CENTER></H1>");
 				}
 				else if(tableType.equals("users")){
 					sql = "SELECT * FROM USERS";
-					out.println("<H1><CENTER>Update Table Users</CENTER></H1>");
+					out.println("<H1><CENTER>Update Users</CENTER></H1>");
 				}
 				else if(tableType.equals("family_doctor")){
 					sql = "SELECT * FROM family_doctor";
-					out.println("<H1><CENTER>Update Table Doctors</CENTER></H1>");
+					out.println("<H1><CENTER>Update Doctors</CENTER></H1>");
 				}
 
 				Statement stmt = conn.createStatement();
@@ -47,7 +49,7 @@ public class Update extends HttpServlet {
 
 		        out.println("<TABLE>");
 		        out.println("<FORM METHOD=GET ACTION=update>");
-		        out.println("<TR>Update Table " + tableType + "</TR><BR>");
+		        out.println("<TR>Update \"" + tableType + "\"</TR><BR>");
 
 		        out.println("<TR VALIGN=TOP ALIGN=LEFT>");
 		        out.println("SET");
@@ -73,6 +75,9 @@ public class Update extends HttpServlet {
 		        out.println("<INPUT TYPE=submit NAME=submitUpdate VALUE=Submit>");
 		        out.println("</FORM");
 				out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+				out.println("<HR>");
+				out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+				out.println("</BODY></HTML>");
 		    }catch(Exception e){
 		    	e.printStackTrace();
 		    }
@@ -110,7 +115,6 @@ public class Update extends HttpServlet {
 		        res.sendRedirect("/radiology-proj/home");
 	  		}
 	        out.println("<H1><CENTER>Update Queries</CENTER></H1>");
-	        out.println("<P>Pick a table to update</P>");
 	        out.println("<FORM method=GET action=update name=tableForm>");
 	        out.println("<select name=tableType id=dropdown>");
 	        out.println("<option value=dropdown>Select Table</option>");
@@ -121,6 +125,9 @@ public class Update extends HttpServlet {
 	        out.println("<input type=submit value=Enter NAME=bSubmit>");
 	        out.println("</FORM>");
 			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+			out.println("<HR>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+			out.println("</BODY></HTML>");
 	    }
 	}
 }

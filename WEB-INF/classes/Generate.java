@@ -19,6 +19,8 @@ public class Generate extends HttpServlet {
     	res.setContentType("text/html");
 		out = res.getWriter ();
 
+		out.println("<HTML><HEAD><TITLE>Generate report</TITLE></HEAD><BODY>");
+		
 		Database.dbConnection newDB = new Database.dbConnection();
         Connection conn = newDB.connection();
 
@@ -82,10 +84,13 @@ public class Generate extends HttpServlet {
 			}
 			out.println("</TABLE>");
 			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+			out.println("<HR>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+			out.println("</BODY></HTML>");
 	  	}
 	  	else{
 	  		out.println("<H1><CENTER>Generate Report</CENTER></H1>");
-			out.println("<P>Enter Diagnosis and/or date of test</P>");
+			out.println("<P>Enter diagnosis and/or test date</P>");
 
 			out.println("<FORM METHOD=GET ACTION=Generate>");
 
@@ -110,8 +115,10 @@ public class Generate extends HttpServlet {
 
 			out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
 			out.println("</FORM>");
-			out.println("<HR>");
 			out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+			out.println("<HR>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+			out.println("</BODY></HTML>");
 	    }
 	}
 }

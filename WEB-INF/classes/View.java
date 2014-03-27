@@ -2,7 +2,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class View extends HttpServlet implements SingleThreadModel {
+public class View extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
 		String picid  = request.getQueryString();
@@ -26,9 +26,12 @@ public class View extends HttpServlet implements SingleThreadModel {
 			out.println("<a href=\"/radiology-proj/images/view?"+picid.substring(4)+"\">");
 			out.println("<img src=\"/radiology-proj/images/getpic?"+picid+"\"></a>");
 		} else {
+			out.println("<a href=\"/radiology-proj/images/view?norm"+picid+"\">");
 			out.println("<img src=\"/radiology-proj/images/getpic?"+picid+"\"></a>");
 		}
 		out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<hr>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 		out.println("</body>");
 		out.println("</html>");
 	}

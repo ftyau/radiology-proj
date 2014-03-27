@@ -48,7 +48,11 @@ public class UploadImage extends HttpServlet {
 				
 				out.println("<tr><th>File path: </th><td><input name=file-path type=\"file\" size=\"30\"></input></td></tr>");
 				out.println("<tr><td ALIGN=CENTER COLSPAN=\"2\"><input type=\"submit\" name=\".submit\" value=\"Upload\"></td></tr>");
-				out.println("</table></form></body></html>");
+				out.println("</table></form>");
+				out.println("<br><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+				out.println("<hr>");
+				out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+				out.println("</body></html>");
 			}
 		} catch(Exception ex) {
 			out.println(ex.getMessage());

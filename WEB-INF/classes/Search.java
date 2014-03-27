@@ -5,7 +5,7 @@ import javax.servlet.http.*;
 import java.sql.*;
 import java.util.Arrays;
 
-public class Search extends HttpServlet implements SingleThreadModel {
+public class Search extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		HttpSession session = request.getSession(true);
@@ -96,6 +96,9 @@ public class Search extends HttpServlet implements SingleThreadModel {
 					String[] request_time_array = request_time.split("\\s+");
 					if ((request_time_array.length != 3) && (request_time_array.length != 1 || request_time_array[0] != "")){
 						out.println("<br>Incorrect date input!");
+						out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+						out.println("<hr>");
+						out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 						out.println("</body>");
 						out.println("</html>");
 						return;
@@ -295,24 +298,16 @@ public class Search extends HttpServlet implements SingleThreadModel {
 				out.println("<tr><td>Search by time period (format of \"YYYY/MM/DD to YYYY/MM/DD\"): </td><td><input type=\"text\" name=time></td>");
 				out.println("<tr><td><input type=hidden name=sort value=\"rank\"></td></tr></tr><tr>");
 				out.println("<td><input type=\"submit\" value=\"Search\" name=search></td>");
-				out.println("</tr></table></form></body></html>");
+				out.println("</tr></table></form>");
 			}
 				
 		} catch(Exception ex) {
 			out.println("<br>Unexpected error. Date format may be incorrect or the database may be having an error.");
 		}
 		out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<hr>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 		out.println("</body>");
 		out.println("</html>");
-	}
-	
-	private static Connection getConnected( String drivername,
-					    String dbstring,
-					    String username, 
-					    String password  ) 
-	throws Exception {
-	Class drvClass = Class.forName(drivername); 
-	DriverManager.registerDriver((Driver) drvClass.newInstance());
-	return( DriverManager.getConnection(dbstring,username,password));
 	}
 }

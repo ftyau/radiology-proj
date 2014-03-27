@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-public class OLAP extends HttpServlet implements SingleThreadModel {
+public class OLAP extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		response.setContentType("text/html");
@@ -127,6 +127,8 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 					out.println("</table>");
 					out.println("<p><a href=\"/radiology-proj/refresh\">Refresh table data</a></p>");
 					out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+					out.println("<hr>");
+					out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 					out.println("</body>");
 					out.println("</html>");
 					
@@ -134,6 +136,9 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 				} else { 
 					out.println("<html><head><title>Data analysis</title></head><body>");
 					out.println("No options selected!");
+					out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+					out.println("<hr>");
+					out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 					out.println("</body></html>");
 				}
 			} catch(Exception ex) {
@@ -158,6 +163,8 @@ public class OLAP extends HttpServlet implements SingleThreadModel {
 			out.println("<input type=\"submit\" name=\"submit\" value=\"Submit\">");
 			out.println("</form>");
 			out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+			out.println("<hr>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 			out.println("</body>");
 			out.println("</html>");
 			}

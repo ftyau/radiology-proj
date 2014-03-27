@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-public class Home extends HttpServlet implements SingleThreadModel {
+public class Home extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		response.setContentType("text/html");
@@ -33,6 +33,9 @@ public class Home extends HttpServlet implements SingleThreadModel {
 		}
 		out.println("<TR><TD><a href=\"/radiology-proj/login?action=logout\">Logout</a></TD></TR>");
 		
-		out.println("</TABLE></TABLE></BODY></HTML>");
+		out.println("</TABLE></TABLE>");
+		out.println("<HR>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+		out.println("</BODY></HTML>");
 	}
 }

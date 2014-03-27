@@ -4,7 +4,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import java.sql.*;
 
-public class Refresh extends HttpServlet implements SingleThreadModel {
+public class Refresh extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException{
 		response.setContentType("text/html");
@@ -31,6 +31,8 @@ public class Refresh extends HttpServlet implements SingleThreadModel {
 			out.println("<html><head><title>Success</title></head>");
 			out.println("<body><h1>Table successfully refreshed!</h1>");
 			out.println("<a href=\"/radiology-proj/olap\">Return to data analysis</a>");
+			out.println("<hr>");
+			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 			out.println("</body></html>");
 			
 			conn.close();
