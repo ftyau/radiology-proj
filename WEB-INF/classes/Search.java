@@ -71,7 +71,7 @@ public class Search extends HttpServlet {
 					"WHERE ";
 					
 					if (!(request_keyword.equals(""))) {
-						query = query + "(";
+						//query = query + "(";
 						int count_contains = 0;
 						for (int i=0;i<keyword_list.length;i++) {
 							query = query + "contains(r.diagnosis, ?, "+ Integer.toString(count_contains+1) +") > 0 OR contains(r.description, ?, "+ Integer.toString(count_contains+2) +") > 0 OR contains(p.first_name, ?, "+ Integer.toString(count_contains+3) +") > 0 OR contains(p.last_name, ?, "+ Integer.toString(count_contains+4) +") > 0 ";
@@ -79,7 +79,7 @@ public class Search extends HttpServlet {
 								query = query + "OR ";
 							count_contains += 4;
 						}
-						query = query + ") ";
+						//query = query + ") ";
 					}
 					
 					//Security module
@@ -124,7 +124,7 @@ public class Search extends HttpServlet {
 						query = query + "rank desc, r.record_id";
 					else
 						query = query + "r.record_id";
-					//out.println("<br>" + query + "<br>");
+					out.println("<br>" + query + "<br>");
 					
 					//Replaces ? with the search keywords
 					PreparedStatement searchStatement = conn.prepareStatement(query);

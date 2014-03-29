@@ -14,11 +14,10 @@ import java.sql.*;
  *    GetOnePic?12:        sends the picture in sm_image with photo_id = 12
  *    GetOnePic?big12: sends the picture in image  with photo_id = 12
  *
- *  @author  Li-Yan Yuan
+ *  Modified from CMPUT391 sample code
  *
  */
-public class GetOnePic extends HttpServlet 
-    implements SingleThreadModel {
+public class GetOnePic extends HttpServlet {
 
     /**
      *    This method first gets the query string indicating PHOTO_ID,

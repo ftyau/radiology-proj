@@ -31,7 +31,7 @@ public class OLAP extends HttpServlet {
 					if (request.getParameter("time") != null) {
 						query = query + "trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
-							query = query + "'d'), ";
+							query = query + "'iw'), ";
 						else if (request.getParameter("hierarchy").equals("monthly"))
 							query = query + "'mm'), ";
 						else if (request.getParameter("hierarchy").equals("yearly"))
@@ -48,7 +48,7 @@ public class OLAP extends HttpServlet {
 					if (request.getParameter("time") != null){
 						query = query + "trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
-							query = query + "'d'),";
+							query = query + "'iw'),";
 						else if (request.getParameter("hierarchy").equals("monthly"))
 							query = query + "'mm'),";
 						else if (request.getParameter("hierarchy").equals("yearly"))
@@ -97,6 +97,7 @@ public class OLAP extends HttpServlet {
 							if (rset.getString(i) != null) {
 								out.println(rset.getString(i));
 								if (request.getParameter("patientName") != null && i == 1) {
+									//Get patient's name
 									String query2 = "SELECT first_name, last_name FROM persons WHERE person_id = " + rset.getString(i);
 									Statement stmt = conn.createStatement();
 									ResultSet rset2 = stmt.executeQuery(query2);
@@ -153,8 +154,9 @@ public class OLAP extends HttpServlet {
 			out.println("<input type=\"checkbox\" name=\"testType\" value=\"1\">Test type<br>");
 			out.println("<input type=\"checkbox\" name=\"time\" value=\"1\">Time period<br>");
 			
+			out.println("<p>Choose a time hierarchy (if \"Time period\" is selected): </p>");
 			out.println("<select name=\"hierarchy\">");
-			out.println("<option value=\"\" style=\"display:none\">Choose a time hierarchy (if \"Time period\" is selected)</option>");
+			//out.println("<option value=\"\" style=\"display:none\">Choose a time hierarchy (if \"Time period\" is selected)</option>");
 			out.println("<option value=\"weekly\">Weekly</option>");
 			out.println("<option value=\"monthly\">Monthly</option>");
 			out.println("<option value=\"yearly\">Yearly</option>");
@@ -162,6 +164,7 @@ public class OLAP extends HttpServlet {
 			
 			out.println("<input type=\"submit\" name=\"submit\" value=\"Submit\">");
 			out.println("</form>");
+			out.println("<p><a href=\"/radiology-proj/refresh\">Refresh table data</a></p>");
 			out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 			out.println("<hr>");
 			out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");

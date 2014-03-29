@@ -2,6 +2,7 @@ import java.io.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
+//Gets images from GetOnePic and outputs them as clickable images for zooming in
 public class View extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
