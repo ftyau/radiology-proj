@@ -85,6 +85,11 @@ public class Personal extends HttpServlet {
 		out.println("<TD><a href=/radiology-proj/editinfo?colNum=5>Edit</a></TD>");
 		out.println("</TR>");
 
+		out.println("<TR>");
+		out.println("<TD>Password</TD>");
+		out.println("<TD><a href=/radiology-proj/editinfo?colNum=6>Edit</a></TD>");
+		out.println("</TR>");
+
 		out.println("</TABLE>");
 		out.println("</TABLE>");
 

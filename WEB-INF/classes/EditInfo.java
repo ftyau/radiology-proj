@@ -80,6 +80,8 @@ public class EditInfo extends HttpServlet {
 			sql = "UPDATE persons SET email =? "+ "WHERE person_id =?";
 		}else if(colName.equals("5")){
 			sql = "UPDATE persons SET phone =? "+ "WHERE person_id =?";
+		}else if(colName.equals("6")){
+			sql = "UPDATE users SET password =? "+ "WHERE person_id =?";
 		}
 		return sql;
 	}
