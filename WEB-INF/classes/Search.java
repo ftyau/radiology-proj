@@ -67,7 +67,7 @@ public class Search extends HttpServlet {
 						query = query + " AS rank ";
 						//query = query + "6*score(3)+6*score(4)+3*score(1)+score(2) AS rank ";
 					}
-					query = query + "FROM radiology_record r FULL JOIN persons p ON r.patient_id = p.person_id FULL JOIN pacs_images pi ON pi.record_id = r.record_id FULL JOIN users u ON p.person_id = u.person_id " +
+					query = query + "FROM radiology_record r FULL JOIN persons p ON r.patient_id = p.person_id FULL JOIN pacs_images pi ON pi.record_id = r.record_id FULL JOIN users u ON p.person_id = u.person_id FULL JOIN family_doctor f ON f.patient_id = r.patient_id " +
 					"WHERE ";
 					
 					if (!(request_keyword.equals(""))) {
@@ -82,17 +82,24 @@ public class Search extends HttpServlet {
 						//query = query + ") ";
 					}
 					
+					if (!(request_keyword.equals("")) && !(request_time.equals("")) && user_class.equals("a")) {
+						query = query + "AND ";
+					} else if (!(request_keyword.equals("")) && !(user_class.equals("a"))) {
+						query = query + "AND ";
+					}
+					
 					//Security module
 					if (user_class.equals("p"))
-						query = query + "AND r.patient_id = '" + user_id + "' ";
+						query = query + "r.patient_id = '" + user_id + "' ";
 					else if (user_class.equals("d"))
-						query = query + "AND r.doctor_id = '" + user_id + "' ";
+						query = query + "r.doctor_id = '" + user_id + "' AND f.doctor_id = r.doctor_id ";
 					else if (user_class.equals("r"))
-						query = query + "AND r.radiologist_id '" + user_id + "' ";
+						query = query + "r.radiologist_id '" + user_id + "' ";
 						
-					if((!(request_keyword.equals(""))) && (!(request_time.equals(""))))
+					if(!(request_time.equals("")) && !(user_class.equals("a")))
 						query = query + "AND ";
 					
+					//Create time period
 					String[] request_time_array = request_time.split("\\s+");
 					if ((request_time_array.length != 3) && (request_time_array.length != 1 || request_time_array[0] != "")){
 						out.println("<br>Incorrect date input!");

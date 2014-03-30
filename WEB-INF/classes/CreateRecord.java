@@ -48,47 +48,51 @@ public class CreateRecord extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		try{
-			String patient_id = request.getParameter("patientid");
-			String doctor_id = request.getParameter("doctorid");
-			String radiologist_id = request.getParameter("radiologistid");
-			String test_type = request.getParameter("testtype");
-			String prescribing_date = request.getParameter("prescribingdate");
-			String test_date = request.getParameter("testdate");
-			String diagnosis = request.getParameter("diagnosis");
-			String description = request.getParameter("description");
-			
-			Database.dbConnection newDB = new Database.dbConnection();
-			Connection conn = newDB.connection();
-			
-			int id = -1;
-			String sql1 = "SELECT MAX(record_id) AS id FROM radiology_record";
-			Statement stmt = conn.createStatement();
-			ResultSet results = stmt.executeQuery(sql1);
-			while(results.next()){
-				id = results.getInt("id");
+		if (request.getParameter("patientid") != null) {
+			try{
+				String patient_id = request.getParameter("patientid");
+				String doctor_id = request.getParameter("doctorid");
+				String radiologist_id = request.getParameter("radiologistid");
+				String test_type = request.getParameter("testtype");
+				String prescribing_date = request.getParameter("prescribingdate");
+				String test_date = request.getParameter("testdate");
+				String diagnosis = request.getParameter("diagnosis");
+				String description = request.getParameter("description");
+				
+				Database.dbConnection newDB = new Database.dbConnection();
+				Connection conn = newDB.connection();
+				
+				int id = -1;
+				String sql1 = "SELECT MAX(record_id) AS id FROM radiology_record";
+				Statement stmt = conn.createStatement();
+				ResultSet results = stmt.executeQuery(sql1);
+				while(results.next()){
+					id = results.getInt("id");
+				}
+				id = id + 1;
+
+				String query = "INSERT INTO radiology_record (record_id,patient_id,doctor_id,radiologist_id,test_type,prescribing_date,test_date,diagnosis,description) " +
+							   "VALUES ('"+String.valueOf(id)+"', '"+patient_id+"', '"+doctor_id+"', '"+radiologist_id+"', '"+test_type+"', '"+prescribing_date+"', '"+test_date+"', '"+diagnosis+"', '"+description+"')";
+
+				stmt.executeUpdate(query);
+				response_message = "Record created with ID of "+String.valueOf(id)+"!";
+				conn.close();
+			} catch(Exception ex) {
+				response_message = ex.getMessage();
+				out.println(ex);
+				out.println("Unexpected error. Date format may be incorrect or inputs may be too long or the database may be having an error.");
 			}
-			id = id + 1;
-
-			String query = "INSERT INTO radiology_record (record_id,patient_id,doctor_id,radiologist_id,test_type,prescribing_date,test_date,diagnosis,description) " +
-						   "VALUES ('"+String.valueOf(id)+"', '"+patient_id+"', '"+doctor_id+"', '"+radiologist_id+"', '"+test_type+"', '"+prescribing_date+"', '"+test_date+"', '"+diagnosis+"', '"+description+"')";
-
-			stmt.executeUpdate(query);
-			response_message = "Record created with ID of "+String.valueOf(id)+"!";
-			conn.close();
-		} catch(Exception ex) {
-			response_message = ex.getMessage();
-			out.println(ex);
-			out.println("Unexpected error. Date format may be incorrect or inputs may be too long or the database may be having an error.");
+			out.println(
+				"<HTML>\n" +
+				"<HEAD><TITLE>Create Record Message</TITLE></HEAD>\n" +
+				"<BODY>\n" +
+				"<H1>" +
+					response_message +
+				"</H1>\n" +
+				"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
+				"</BODY></HTML>");
+		} else {
+			out.println("Patient ID cannot be empty!");
 		}
-		out.println(
-			"<HTML>\n" +
-			"<HEAD><TITLE>Create Record Message</TITLE></HEAD>\n" +
-			"<BODY>\n" +
-			"<H1>" +
-				response_message +
-			"</H1>\n" +
-			"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
-			"</BODY></HTML>");
 	}
 }
