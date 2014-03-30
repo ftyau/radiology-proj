@@ -80,7 +80,7 @@ public class CreateRecord extends HttpServlet {
 			} catch(Exception ex) {
 				response_message = ex.getMessage();
 				out.println(ex);
-				out.println("Unexpected error. Date format may be incorrect or inputs may be too long or the database may be having an error.");
+				out.println("Unexpected error. Date format may be incorrect or inputs may be too long or patient ID may not exist in the database or the database may be having an error.");
 			}
 			out.println(
 				"<HTML>\n" +

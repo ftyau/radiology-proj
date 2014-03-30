@@ -29,24 +29,45 @@ public class OLAP extends HttpServlet {
 					if (request.getParameter("testType") != null)
 						query = query + "test_type, ";	
 					if (request.getParameter("time") != null) {
-						query = query + "trunc(test_date, ";
+						query = query + "to_char(trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
-							query = query + "'iw') -1, ";
+							query = query + "'iw')-1, ";
 						else if (request.getParameter("hierarchy").equals("monthly"))
 							query = query + "'mm'), ";
 						else if (request.getParameter("hierarchy").equals("yearly"))
 							query = query + "'y'), ";
 						else
-							query = query + "'iw'), ";
+							query = query + "'iw')-1, ";
+						query = query + "'MM/DD/YYYY') AS start_date, ";
 					}
-					query = query + "COUNT(image_id) FROM olap_view GROUP BY CUBE (";
+					query = query + "COUNT(image_id) FROM olap_view ";
+					if (request.getParameter("date") != null) {
+						if (request.getParameter("hierarchy").equals("monthly")) {
+							String year = request.getParameter("date").substring(6,10);
+							query = query + "WHERE EXTRACT(year FROM test_date) = " + year + " ";
+							out.println("Results for year of " + year);
+						} else if (request.getParameter("hierarchy").equals("weekly")) {
+							String month = request.getParameter("date").substring(0,2);
+							String year = request.getParameter("date").substring(6,10);
+							if (request.getParameter("from").equals("y")) {
+								query = query + "WHERE EXTRACT(year FROM test_date) = " + year + " ";
+								out.println("Results for year of " + year);
+							}
+							else if (request.getParameter("from").equals("m")) {
+								query = query + "WHERE EXTRACT(year FROM test_date) = " + year + " AND EXTRACT(month FROM test_date) = " + month + " ";
+								out.println("Results for month " + month + " of " + year);
+							}
+						}
+					}
+					
+					query = query + "GROUP BY CUBE (";
 					
 					if (request.getParameter("patientName") != null)
 						query = query + "patient_id,";
 					if (request.getParameter("testType") != null)
 						query = query + "test_type,";	
 					if (request.getParameter("time") != null){
-						query = query + "trunc(test_date, ";
+						query = query + "to_char(trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
 							query = query + "'iw')-1,";
 						else if (request.getParameter("hierarchy").equals("monthly"))
@@ -54,7 +75,8 @@ public class OLAP extends HttpServlet {
 						else if (request.getParameter("hierarchy").equals("yearly"))
 							query = query + "'y'),";
 						else
-							query = query + "'iw'),";
+							query = query + "'iw')-1,";
+						query = query + "'MM/DD/YYYY'),";
 					}
 					query = query.substring(0,query.length()-1);
 					query = query + ")";
@@ -88,6 +110,8 @@ public class OLAP extends HttpServlet {
 							out.println("<th>Week starting on</th>");
 						}
 					out.println("<th># of images</th>");
+					if (request.getParameter("time") != null)
+						out.println("<th>Actions</th>");
 					out.println("</tr>");
 					
 					while (rset.next()){
@@ -124,6 +148,38 @@ public class OLAP extends HttpServlet {
 							}
 							out.println("</td>");
 						}
+						
+						//Actions column
+						if (request.getParameter("time") != null && rset.getString("start_date") != null) {
+							out.println("<td>");
+							String uri = request.getScheme() + "://" +
+								request.getServerName() +
+								":" + request.getServerPort() +
+								request.getRequestURI() + "?" + 
+								request.getQueryString();
+								
+							if (request.getParameter("date") != null)
+								uri = uri.substring(0,uri.length()-23);
+							
+							if (request.getParameter("hierarchy").equals("weekly")){
+								String rollupUri = uri.replaceAll("&hierarchy=weekly", "&hierarchy=monthly");
+								out.println("<a href=\""+rollupUri+"\">Roll up</a>");
+							} else if (request.getParameter("hierarchy").equals("monthly")) {
+								String rollupUri = uri.replaceAll("&hierarchy=monthly", "&hierarchy=yearly");
+								String drilldownUri1 = uri.replaceAll("&hierarchy=monthly", "&hierarchy=weekly");
+								out.println("<a href=\""+rollupUri+"\">Roll up</a>");
+								out.println("<a href=\""+drilldownUri1+"&from=m&date="+rset.getString("start_date")+"\">Drill down by week</a>");
+							} else if (request.getParameter("hierarchy").equals("yearly")) {
+								String drilldownUri1 = uri.replaceAll("&hierarchy=yearly", "&hierarchy=monthly");
+								String drilldownUri2 = uri.replaceAll("&hierarchy=yearly", "&hierarchy=weekly");
+								out.println("<a href=\""+drilldownUri1+"&from=y&date="+rset.getString("start_date")+"\">Drill down by month</a>");
+								out.println("<a href=\""+drilldownUri2+"&from=y&date="+rset.getString("start_date")+"\">Drill down by week</a>");
+							}
+							out.println("</td>");
+						}
+						
+						
+						out.println("</tr>");
 					}
 					out.println("</table>");
 
