@@ -25,9 +25,11 @@ public class Home extends HttpServlet {
 		if (user_class.equals("a")) {
 			out.println("<TR><TD><a href=\"/radiology-proj/adminpanel\">System Admin Panel</a></TD></TR>");
 		}
-		out.println("<TR><TD><a href=\"/radiology-proj/upload\">Upload Pictures</a></TD></TR>");
+		if (user_class.equals("r") || user_class.equals("a")) {
+			out.println("<TR><TD><a href=\"/radiology-proj/upload\">Upload Pictures</a></TD></TR>");
+			out.println("<TR><TD><a href=\"/radiology-proj/newrecord\">Create New Radiology Record</a></TD></TR>");
+		}
 		out.println("<TR><TD><a href=\"/radiology-proj/search\">Search Database</a></TD></TR>"); 
-		
 		if (user_class.equals("a")) {
 			out.println("<TR><TD><a href=\"/radiology-proj/olap\">Data Analysis</a></TD></TR>");
 		}

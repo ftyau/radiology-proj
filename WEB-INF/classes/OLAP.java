@@ -31,7 +31,7 @@ public class OLAP extends HttpServlet {
 					if (request.getParameter("time") != null) {
 						query = query + "trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
-							query = query + "'iw'), ";
+							query = query + "'iw') -1, ";
 						else if (request.getParameter("hierarchy").equals("monthly"))
 							query = query + "'mm'), ";
 						else if (request.getParameter("hierarchy").equals("yearly"))
@@ -48,7 +48,7 @@ public class OLAP extends HttpServlet {
 					if (request.getParameter("time") != null){
 						query = query + "trunc(test_date, ";
 						if (request.getParameter("hierarchy").equals("weekly"))
-							query = query + "'iw'),";
+							query = query + "'iw')-1,";
 						else if (request.getParameter("hierarchy").equals("monthly"))
 							query = query + "'mm'),";
 						else if (request.getParameter("hierarchy").equals("yearly"))
@@ -126,6 +126,7 @@ public class OLAP extends HttpServlet {
 						}
 					}
 					out.println("</table>");
+
 					out.println("<p><a href=\"/radiology-proj/refresh\">Refresh table data</a></p>");
 					out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
 					out.println("<hr>");
