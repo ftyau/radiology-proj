@@ -7,7 +7,7 @@ A person may have multiple accounts, as each account has a different level of pe
 <p>To login, the user must enter a valid username and password in the respective fields, and if there are no issues with the username and password or the database, the user will be brought to the home screen where he or she can select different modules to use.</p>
 
 <p><span style="text-decoration: underline;">System admin panel</span></p>
-<p>This page can only be accesed by administrators. This page has three different modules.</p>
+<p>ADMIN ONLY. This page can only be accesed by administrators. This page has three different modules.</p>
 <ol>
 <li><span style="text-decoration: underline;">Insert query</span></li>
 
@@ -35,10 +35,12 @@ between the two entered dates in the format of YYYY-MM-DD.</li>
 </ol>
 
 <p><span style="text-decoration: underline;">Uploading module</span></p>
-<p>In this module, the user can upload a picture from his or her own computer to a specified radiology record. These images are then stored in the database 
+<p>ADMIN AND RADIOLOGIST ONLY. In this module, the user can upload a picture from his or her own computer to a specified radiology record. These images are then stored in the database 
 hosting the records, and will be available to view when searching through the radiology records.</p>
 <p>To upload an image, the user must enter a valid radiology record into the text box, and choose a single existing image from their files. 
 If those are all valid, then the module will return a success message and allow the user to return to the home screen.</p>
+<p>The user may also choose to create a new record. From the page that creates records, the user fills in all the details for the record to be inserted.
+If the input patient ID is valid, then the record will be added to the database. </p>
 
 <p><span style="text-decoration: underline;">Search module</span></p>
 <p>This module allows the user to search existing radiology records, based on keywords from the patient's name, diagnosis, description, or a 
@@ -49,7 +51,7 @@ of "YYYY/MM/DD to YYYY/MM/DD" (with the single quotation marks). For example, a 
 requires the user to enter "2012/01/01 to 2013/03/15".</p>
 
 <p><span style="text-decoration: underline;">Data analysis module</span></p>
-<p>This module only appears on the home page if the logged in user is an administrator. Here, the user is able to create an OLAP report for data analysis 
+<p>ADMIN ONLY. This module only appears on the home page if the logged in user is an administrator. Here, the user is able to create an OLAP report for data analysis 
 by selecting various dimensions to search for. The returned result is a table containing all the existing combinations of the selected dimensions, 
 and the total number of images associated with them.</p>
 <p>To create the tables, the user can choose to show the number of images associated with the patient name, test type, or time. 
@@ -59,9 +61,10 @@ will recreate the tables in the database, and allow the user to get up-to-date r
 
 <p><span style="text-decoration: underline;">Installation instructions</span></p>
 <p>To install the program, unzip the files and place the radiology-proj folder into the Apache Tomcat webapps folder. Next, change the details in 
-the dbConnection.java in /radiology-proj/classes/Database to contain the details for your own database. Enter SQLPlus after that, and execute the 
-SQL statements in sql_statements.sql by entering @sql_statements.sql. After all the files are set up for Tomcat, the radiology information system 
-can be accessed by navigating to "localhost:8080/radiology-proj/login" from your browser.</p>
+the dbConnection.java in /radiology-proj/classes/Database to contain the details for your own database. Return to the /classes folder and type 'make all' in 
+the terminal to execute the makefile to compile all the java files. Enter SQLPlus after that, and execute the SQL statements in sql_statements.sql 
+by entering @sql_statements.sql. After all the files are set up for Tomcat, the radiology information system can be accessed by navigating 
+to "localhost:8080/radiology-proj/login" or "[host]/radiology-proj/login" from your browser.</p>
 <p>To make changes to the system, you can login with the default administrator account by using the username "admin" and password "111".</p>
 </BODY>
 </HTML>
