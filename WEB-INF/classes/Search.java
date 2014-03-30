@@ -54,7 +54,7 @@ public class Search extends HttpServlet {
 				//Create query to send to DB
 				if((!(request_keyword.equals(""))) || (!(request_time.equals("")))) {
 					String[] keyword_list = request_keyword.split("\\s+");
-					String query = "SELECT p.first_name, p.last_name, r.*, pi.image_id ";
+					String query = "SELECT DISTINCT p.first_name, p.last_name, r.* , pi.image_id ";
 					if (!(request_keyword.equals(""))) {
 						query = query + ",";
 						int count_score = 0;
@@ -131,7 +131,7 @@ public class Search extends HttpServlet {
 						query = query + "rank desc, r.record_id";
 					else
 						query = query + "r.record_id";
-					out.println("<br>" + query + "<br>");
+					//out.println("<br>" + query + "<br>");
 					
 					//Replaces ? with the search keywords
 					PreparedStatement searchStatement = conn.prepareStatement(query);

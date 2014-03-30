@@ -106,8 +106,8 @@ CREATE SEQUENCE pic_id_sequence;
  */
 CREATE INDEX description_index ON radiology_record(description) INDEXTYPE IS CTXSYS.CONTEXT;
 CREATE INDEX diagnosis_index ON radiology_record(diagnosis) INDEXTYPE IS CTXSYS.CONTEXT; 
-CREATE INDEX prescribing_index ON radiology_record(prescribing_date) INDEXTYPE IS CTXSYS.CONTEXT; 
-CREATE INDEX test_index ON radiology_record(test_date) INDEXTYPE IS CTXSYS.CONTEXT; 
+CREATE INDEX prescribing_index ON radiology_record(prescribing_date); 
+CREATE INDEX test_index ON radiology_record(test_date); 
 CREATE INDEX first_name_index ON persons(first_name) INDEXTYPE IS CTXSYS.CONTEXT; 
 CREATE INDEX last_name_index ON persons(last_name) INDEXTYPE IS CTXSYS.CONTEXT; 
 
