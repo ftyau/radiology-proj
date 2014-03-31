@@ -71,7 +71,7 @@ public class Search extends HttpServlet {
 					"WHERE ";
 					
 					if (!(request_keyword.equals(""))) {
-						//query = query + "(";
+						query = query + "(";
 						int count_contains = 0;
 						for (int i=0;i<keyword_list.length;i++) {
 							query = query + "contains(r.diagnosis, ?, "+ Integer.toString(count_contains+1) +") > 0 OR contains(r.description, ?, "+ Integer.toString(count_contains+2) +") > 0 OR contains(p.first_name, ?, "+ Integer.toString(count_contains+3) +") > 0 OR contains(p.last_name, ?, "+ Integer.toString(count_contains+4) +") > 0 ";
@@ -79,7 +79,7 @@ public class Search extends HttpServlet {
 								query = query + "OR ";
 							count_contains += 4;
 						}
-						//query = query + ") ";
+						query = query + ") ";
 					}
 					
 					if (!(request_keyword.equals("")) && !(request_time.equals("")) && user_class.equals("a")) {
@@ -94,7 +94,7 @@ public class Search extends HttpServlet {
 					else if (user_class.equals("d"))
 						query = query + "r.doctor_id = '" + user_id + "' AND f.doctor_id = r.doctor_id ";
 					else if (user_class.equals("r"))
-						query = query + "r.radiologist_id '" + user_id + "' ";
+						query = query + "r.radiologist_id = '" + user_id + "' ";
 						
 					if(!(request_time.equals("")) && !(user_class.equals("a")))
 						query = query + "AND ";

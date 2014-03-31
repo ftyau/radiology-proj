@@ -18,24 +18,35 @@ public class Generate extends HttpServlet {
     	
     	res.setContentType("text/html");
 		out = res.getWriter ();
-
-		out.println("<HTML><HEAD><TITLE>Generate report</TITLE></HEAD><BODY>");
 		
-		Database.dbConnection newDB = new Database.dbConnection();
-        Connection conn = newDB.connection();
-
-
 	  	if(request.getParameter("bSubmit")!=null){
-
 			ArrayList<ArrayList<String>> outer = new ArrayList<ArrayList<String>>();
-		
-			String diagnosis = request.getParameter("diagnosis").trim();
-			String testdate1 = request.getParameter("inputDate1").trim();
-			String testdate2 = request.getParameter("inputDate2").trim();
+			try {
+				Database.dbConnection newDB = new Database.dbConnection();
+				Connection conn = newDB.connection();
+				
+				String diagnosis;
+				String testdate1;
+				String testdate2;
+				if (!(request.getParameter("diagnosis").equals("")))
+					diagnosis = request.getParameter("diagnosis").trim();
+				else
+					throw new Exception("empty input");
+					
+				if (!(request.getParameter("inputDate1").equals("")))
+					testdate1 = request.getParameter("inputDate1").trim();
+				else
+					throw new Exception("empty input");
+					
+				if (!(request.getParameter("inputDate2").equals("")))
+					testdate2 = request.getParameter("inputDate2").trim();
+				else
+					throw new Exception("empty input");
+				
 				// out.println(diagnosis);
 				// out.println(testdate1);
 				// out.println(testdate2);
-			try{
+				
 				String sql = "SELECT DISTINCT FIRST_NAME,LAST_NAME,ADDRESS,PHONE FROM PERSONS p, RADIOLOGY_RECORD r " 
 							+"WHERE p.PERSON_ID = r.PATIENT_ID  AND r.DIAGNOSIS LIKE" + "'%" +diagnosis+ "%'" +
 							" AND r.test_date BETWEEN" + "'"+ testdate1 +"'" + "AND" + "'" + testdate2 + "'";
@@ -59,11 +70,21 @@ public class Generate extends HttpServlet {
 		    	}
 				stmt.close();
 		        conn.close();
-		    }catch(SQLException e){
-		    	e.printStackTrace();
+		    }catch(Exception ex){
+				out.println("<HTML><HEAD><TITLE>Generate report</TITLE></HEAD><BODY>");
+		    	if (ex.getMessage().equals("empty input"))
+					out.println("<h1>Please make sure all fields are filled!</h1>");
+				else if (ex.getMessage().startsWith("ORA-01841") || ex.getMessage().startsWith("ORA-01861"))
+						out.println("<h1>Time period must be in the format of YYYY/MM/DD!</h1>");
+				else
+					out.println("<h1>"+ex.getMessage()+"</h1>");
+				out.println("<p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+				out.println("</BODY></HTML>");
+				return;
 		    }
 
 			//Print data out into a table
+			out.println("<HTML><HEAD><TITLE>Generate report</TITLE></HEAD><BODY>");
 			out.println("<H1><CENTER>Report</CENTER></H1>");
 			out.println("<table border=1>");
 			out.println("<TR>");
@@ -89,10 +110,11 @@ public class Generate extends HttpServlet {
 			out.println("</BODY></HTML>");
 	  	}
 	  	else{
+			out.println("<HTML><HEAD><TITLE>Generate report</TITLE></HEAD><BODY>");
 	  		out.println("<H1><CENTER>Generate Report</CENTER></H1>");
 			out.println("<P>Enter diagnosis and/or test date</P>");
 
-			out.println("<FORM METHOD=GET ACTION=Generate>");
+			out.println("<FORM METHOD=GET ACTION=generate>");
 
 			out.println("<TABLE>");
 
@@ -102,12 +124,12 @@ public class Generate extends HttpServlet {
 			out.println("</TR>");
 
 			out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-			out.println("<TD><B>Test Date (YYYY-MM-DD): </B></TD>");
+			out.println("<TD><B>Time period starting from (YYYY/MM/DD): </B></TD>");
 			out.println("<TD><INPUT TYPE=text NAME=inputDate1><BR></TD>");
 			out.println("</TR>");
 
 			out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-			out.println("<TD><B>Test Date (YYYY-MM-DD): </B></TD>");
+			out.println("<TD><B>Time period ending on (YYYY/MM/DD): </B></TD>");
 			out.println("<TD><INPUT TYPE=text NAME=inputDate2><BR></TD>");
 			out.println("</TR>");
 

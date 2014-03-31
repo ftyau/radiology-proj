@@ -42,14 +42,30 @@ public class Personal extends HttpServlet {
 	        results = stmt.executeQuery();
 
 			while(results != null && results.next()){
-		    	first_name = (results.getString("first_name")).trim();
-				last_name = (results.getString("last_name")).trim();
-				address = (results.getString("address")).trim();
-				phone = (results.getString("phone")).trim();
-				email = (results.getString("email")).trim();
+				if (results.getString("first_name") != null)
+					first_name = results.getString("first_name").trim();
+				else
+					first_name = "null";
+				if (results.getString("last_name") != null)
+					last_name = results.getString("last_name").trim();
+				else
+					last_name = "null";
+				if (results.getString("address") != null)
+					address = results.getString("address").trim();
+				else
+					address = "null";
+				if (results.getString("phone") != null)
+					phone = results.getString("phone").trim();
+				else
+					phone = "null";
+				if (results.getString("email") != null)
+					email = results.getString("email").trim();
+				else
+					email = "null";
 			}
+			conn.close();
 	    }catch(Exception ex){
-	        out.println("<hr>" + ex.getMessage() + "<hr>");
+	        out.println("Unexpected error. Database may be having issues.<br>Error: " + ex);
 		}
 		out.println("<HTML>");
 		out.println("<HEAD>");
@@ -59,6 +75,10 @@ public class Personal extends HttpServlet {
 		out.println("<H1><CENTER>Personal Information</CENTER></H1>");
 		out.println("<TABLE ALIGN=CENTER>");
 		out.println("<TABLE BORDER=1");
+		
+		out.println("<TR>");
+		out.println("<TD>ID: "+ session.getAttribute("id") +"</TD>");
+		out.println("</TR>");
 
 		out.println("<TR>");
 		out.println("<TD>First Name: "+ first_name +"</TD>");
@@ -76,12 +96,12 @@ public class Personal extends HttpServlet {
 		out.println("</TR>");
 
 		out.println("<TR>");
-		out.println("<TD>Phone: "+ phone +"</TD>");
+		out.println("<TD>Email: "+ email +"</TD>");
 		out.println("<TD><a href=/radiology-proj/editinfo?colNum=4>Edit</a></TD>");
 		out.println("</TR>");
 
 		out.println("<TR>");
-		out.println("<TD>Email: "+ email +"</TD>");
+		out.println("<TD>Phone: "+ phone +"</TD>");
 		out.println("<TD><a href=/radiology-proj/editinfo?colNum=5>Edit</a></TD>");
 		out.println("</TR>");
 

@@ -8,6 +8,7 @@ import oracle.jdbc.driver.*;
 public class Insert extends HttpServlet {
 	Connection conn = null;
 	String tableType = "";
+	String response_message;
 	PrintWriter out;
     public void doGet(HttpServletRequest request,HttpServletResponse res) throws ServletException, IOException {
     	HttpSession session = request.getSession(true);
@@ -17,30 +18,77 @@ public class Insert extends HttpServlet {
 		}
     	
     	res.setContentType("text/html");
-		out = res.getWriter ();
+		out = res.getWriter();
 		
-		out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
-
-		Database.dbConnection newDB = new Database.dbConnection();
-        Connection conn = newDB.connection();
-
-
 	  	if(request.getParameter("bSubmit")!=null){
 	  		tableType = request.getParameter("tableType");
-
-			if(tableType.equals("persons")){
-				personsFormat(request);
-			}
-			else if(tableType.equals("users")){
+			if(tableType.equals("users")){
 				usersFormat(request);
+			}
+			else if(tableType.equals("persons")){
+				personsFormat(request);
 			}
 			else if(tableType.equals("family_doctor")){
 				doctorFormat(request);
 			}
 	  	}
 	  	else{
+		
+			//User selected
+	  		if(request.getParameter("submitQueryUser")!=null){
+	  			try{
+					Database.dbConnection newDB = new Database.dbConnection();
+					Connection conn = newDB.connection();
+				
+		  			String classType = request.getParameter("classType");
+					String personID = request.getParameter("personID");
+					String username = request.getParameter("username");
+					String password = request.getParameter("pass");
+					
+					if (password.equals(""))
+						throw new Exception("Password cannot be empty!");
+						
+					//out.println(personID);
+					//out.println("Users   ");
+					//out.println(classType);
+					//users(user_name,password,class,person_id,date_registered)
+					String sql = "INSERT INTO users (user_name,password,class,person_id,date_registered) VALUES" +
+									"(?,?,?,?,SYSDATE)";
+					PreparedStatement stmt = conn.prepareStatement(sql);
+					stmt.setString(1,username);
+					stmt.setString(2,password);
+					stmt.setString(3,classType);
+					stmt.setInt(4,Integer.valueOf(personID));
+					//stmt.setTimestamp(5,new java.sql.Timestamp(today.getTime()));
+					stmt.executeUpdate();
+					conn.commit();
+					stmt.close();
+					conn.close();
+					response_message = "Insert OK!";
+				}catch(Exception ex){
+					response_message = ex.getMessage();
+					if (response_message.startsWith("ORA-01400"))
+						response_message = "Please make sure all fields are filled!";
+					else if (response_message.startsWith("ORA-12899"))
+						response_message = "Please choose a class for the user!";
+				}
+				out.println(
+					"<HTML>\n" +
+					"<HEAD><TITLE>Insert Message</TITLE></HEAD>\n" +
+					"<BODY>\n" +
+					"<H1>" +
+					response_message +
+					"</H1>\n" +
+					"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
+					"</BODY></HTML>");
+				return;
+	  		}		
+			//Person selected
 	  		if(request.getParameter("submitQueryPerson")!=null){
 	  			try{
+					Database.dbConnection newDB = new Database.dbConnection();
+					Connection conn = newDB.connection();
+					
 		  			String firstname = request.getParameter("firstname");
 					String lastname = request.getParameter("lastname");
 					String address = request.getParameter("address");
@@ -65,42 +113,27 @@ public class Insert extends HttpServlet {
 					conn.commit();
 					stmt.close();
 					conn.close();
-				}catch(SQLException e){
-					e.printStackTrace();
+					response_message = "Insert OK with ID of "+idee+"!";
+				}catch(Exception ex){
+					response_message = ex.getMessage();
 				}
-				res.sendRedirect("/radiology-proj/home");
+				out.println(
+					"<HTML>\n" +
+					"<HEAD><TITLE>Insert Message</TITLE></HEAD>\n" +
+					"<BODY>\n" +
+					"<H1>" +
+					response_message +
+					"</H1>\n" +
+					"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
+					"</BODY></HTML>");
+				return;
 	  		}
-
-	  		if(request.getParameter("submitQueryUser")!=null){
-	  			try{
-		  			String classType = request.getParameter("classType");
-					String personID = request.getParameter("personID");
-					String username = request.getParameter("username");
-					String password = request.getParameter("pass");
-					//out.println(personID);
-					//out.println("Users   ");
-					//out.println(classType);
-
-					//users(user_name,password,class,person_id,date_registered)
-					String sql = "INSERT INTO users (user_name,password,class,person_id,date_registered) VALUES" +
-									"(?,?,?,?,SYSDATE)";
-					PreparedStatement stmt = conn.prepareStatement(sql);
-					stmt.setString(1,username);
-					stmt.setString(2,password);
-					stmt.setString(3,classType);
-					stmt.setInt(4,Integer.valueOf(personID));
-					//stmt.setTimestamp(5,new java.sql.Timestamp(today.getTime()));
-					stmt.executeUpdate();
-					conn.commit();
-					stmt.close();
-					conn.close();
-				}catch(SQLException e){
-					e.printStackTrace();
-				}
-				res.sendRedirect("/radiology-proj/home");
-	  		}
+			//Doctor selected
 	  		if(request.getParameter("submitQueryDoctor")!=null){
 	  			try{
+					Database.dbConnection newDB = new Database.dbConnection();
+					Connection conn = newDB.connection();
+				
 	  				String docID = request.getParameter("docID");
 					String patID = request.getParameter("patientID");
 					String sql = "INSERT INTO family_doctor (doctor_id,patient_id) VALUES" +
@@ -114,18 +147,31 @@ public class Insert extends HttpServlet {
 					conn.commit();
 					stmt.close();
 					conn.close();
-				}catch(SQLException e){
-					e.printStackTrace();
+				response_message = "Insert OK!";
+				}catch(Exception ex){
+					response_message = ex.getMessage();
+					if (response_message.startsWith("ORA-00001"))
+						response_message = "Assignment already exists!";
 				}
-				res.sendRedirect("/radiology-proj/home");
+				out.println(
+					"<HTML>\n" +
+					"<HEAD><TITLE>Insert Message</TITLE></HEAD>\n" +
+					"<BODY>\n" +
+					"<H1>" +
+					response_message +
+					"</H1>\n" +
+					"<p><a href=\"/radiology-proj/home\">Return to home</a></p>"+
+					"</BODY></HTML>");
+				return;
 	  		}
-
+			//Default page when nothing submitted
+			out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
 			out.println("<H1><CENTER>Insert Queries</CENTER></H1>");
 			out.println("<FORM method=GET action=insert name=tableForm>");
 		    out.println("<select name=tableType id=dropdown>");
 		    out.println("<option value=dropdown>Select Table</option>");
-		    out.println("<option value=persons>Persons</option>");
 		    out.println("<option value=users>User</option>");
+			out.println("<option value=persons>Persons</option>");
 		    out.println("<option value=family_doctor>Family Doctor</option>");
 		    out.println("</select>");
 		    out.println("<input type=submit value=Enter NAME=bSubmit>");
@@ -136,47 +182,9 @@ public class Insert extends HttpServlet {
 			out.println("</BODY></HTML>");
 	  	}
 	} 
-
-	public String personsFormat(HttpServletRequest request){
-		out.println("<H1><CENTER>Insert New Person</CENTER></H1>");
-		out.println("<P>Enter the details for the new person</P>");
-
-		out.println("<FORM METHOD=GET ACTION=insert>");
-		out.println("<TABLE>");
-
-        out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> First Name: </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=firstname><BR></TD></TR>");
-
-		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Last Name: </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=lastname><BR></TD></TR>");
-
-		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Address </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=address><BR></TD></TR>");
-
-		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Email </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=email><BR></TD></TR>");
-
-
-		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B> Phone </B></TD>");
-        out.println("<TD><INPUT TYPE=text NAME=phone><BR></TD></TR>");
-
-		out.println("</TABLE>");
-		out.println("<INPUT TYPE=submit NAME=submitQueryPerson VALUE=Submit>");
-
-        out.println("</FORM>");
-        out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
-		out.println("<HR>");
-		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
-		out.println("</BODY></HTML>");
-        return request.getParameter("submitQueryPerson");
-	}
-
+	//Creates the page for when Users is selected
 	public void usersFormat(HttpServletRequest request){
+		out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
 		out.println("<H1><CENTER>Insert New User</CENTER></H1>");
 		out.println("<P>Insert a new username and password and select a class for the user. " + 
 		"The person must exist in the database before they can be registered as a user. </P>");
@@ -185,11 +193,11 @@ public class Insert extends HttpServlet {
 		out.println("<TABLE>");
 
         out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B>New Username: </B></TD>");
+        out.println("<TD><B>Username: </B></TD>");
         out.println("<TD><INPUT TYPE=text NAME=username><BR></TD></TR>");
 
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
-        out.println("<TD><B>New Password: </B></TD>");
+        out.println("<TD><B>Password: </B></TD>");
         out.println("<TD><INPUT TYPE=text NAME=pass><BR></TD></TR>");
 
 		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
@@ -221,8 +229,51 @@ public class Insert extends HttpServlet {
 		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 		out.println("</BODY></HTML>");
 	}
+	
+	//Creates the page for when Person is selected
+	public String personsFormat(HttpServletRequest request){
+		out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
+		out.println("<H1><CENTER>Insert New Person</CENTER></H1>");
+		out.println("<P>Enter the details for the new person</P>");
 
+		out.println("<FORM METHOD=GET ACTION=insert>");
+		out.println("<TABLE>");
+
+        out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+        out.println("<TD><B> First Name: </B></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=firstname><BR></TD></TR>");
+
+		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+        out.println("<TD><B> Last Name: </B></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=lastname><BR></TD></TR>");
+
+		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+        out.println("<TD><B> Address: </B></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=address><BR></TD></TR>");
+
+		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+        out.println("<TD><B> Email: </B></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=email><BR></TD></TR>");
+
+
+		out.println("<TR VALIGN=TOP ALIGN=LEFT>");
+        out.println("<TD><B> Phone: </B></TD>");
+        out.println("<TD><INPUT TYPE=text NAME=phone><BR></TD></TR>");
+
+		out.println("</TABLE>");
+		out.println("<INPUT TYPE=submit NAME=submitQueryPerson VALUE=Submit>");
+
+        out.println("</FORM>");
+        out.println("<BR><p><a href=\"/radiology-proj/home\">Return to home</a></p>");
+		out.println("<HR>");
+		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+		out.println("</BODY></HTML>");
+        return request.getParameter("submitQueryPerson");
+	}
+	
+	//Creates a page for when Doctor is selected
 	public void doctorFormat(HttpServletRequest request){
+		out.println("<HTML><HEAD><TITLE>Insert query</TITLE></HEAD><BODY>");
     	out.println("<H1><CENTER>Insert New Doctor</CENTER></H1>");
 		out.println("<P>Assign a doctor to a patient</P>");
 
@@ -255,7 +306,7 @@ public class Insert extends HttpServlet {
 		out.println("</BODY></HTML>");
 
 	}
-
+	//Gets IDs
 	public ArrayList<String> getIDs(String str){
 		ArrayList<String> array = new ArrayList<String>();
 		Database.dbConnection newDB = new Database.dbConnection();

@@ -53,6 +53,8 @@ public class UploadImage extends HttpServlet {
 				out.println("<hr>");
 				out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 				out.println("</body></html>");
+				
+				conn.close();
 			}
 		} catch(Exception ex) {
 			out.println(ex.getMessage());
@@ -138,7 +140,6 @@ public class UploadImage extends HttpServlet {
 		response_message = "Upload OK!";
 		conn.close();
 	} catch( Exception ex ) {
-	    //System.out.println( ex.getMessage());
 	    response_message = ex.getMessage();
 	}
 

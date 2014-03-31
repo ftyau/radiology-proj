@@ -19,7 +19,9 @@ public class Login extends HttpServlet {
 			if(request.getParameter("USERID").length() < 1 || request.getParameter("PASSWD").length() < 1 ||
 				request.getParameter("USERID") == null || request.getParameter("PASSWD") == null){
 				out.println("Username and/or password cannot be empty");
-				response.setHeader("Refresh", "5; URL=/radiology-proj/login");
+				out.println("<HR>");
+				out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
+				out.println("</BODY></HTML>");
 				return;
 			}
 
@@ -43,6 +45,7 @@ public class Login extends HttpServlet {
 				String dbPassword = "";
 				int personID = 0;
 				
+				//Check if password matches
 				while (results.next()) {
 					dbPassword = results.getString("password").trim();
 					
@@ -64,6 +67,7 @@ public class Login extends HttpServlet {
 			}
 		}
 		else{
+			//Default login page when submit hasn't been entered yet
 			out.println("<H1><CENTER>Radiology Database Login</CENTER></H1>");
 			out.println("<P>To login successfully, you need to enter a valid username and password.</P>");
 
@@ -86,8 +90,8 @@ public class Login extends HttpServlet {
 
 			out.println("<INPUT TYPE=submit NAME=bSubmit VALUE=Submit>");
 			out.println("</FORM>");
-			out.println("<HR>");
 		}
+		out.println("<HR>");
 		out.println("<p align=right><a href=\"/radiology-proj/help.html\">Help</a></p>");
 		out.println("</BODY></HTML>");
 	}
